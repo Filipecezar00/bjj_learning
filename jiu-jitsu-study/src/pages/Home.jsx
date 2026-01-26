@@ -1,3 +1,4 @@
+import {useState} from "react" 
 import CategoryCard from "../components/CategoryCard"; 
 
 export default function Home(){
@@ -11,6 +12,13 @@ const categories = [
     'Defesa', 
     'Quedas', 
 ]; 
+const [selectedCategory,setSelectedCategory] = useState(null) 
+
+function handleCategoryClick(category){
+    console.log("Categoria Clicada:", category);  
+    setSelectedCategory(category); 
+
+}
 
 // Função com elementos e interface do Usuario 
 return(
@@ -19,9 +27,14 @@ return(
                 <h1 style={{fontFamily:"sans-serif",marginBottom:"30px",textAlign:"left",fontSize:"2rem"}}>Estudos de Jiu-jitsu</h1>
                 <div style={{display:"flex",gap:"12px",marginTop:"5px", flexDirection:"column",justifyContent:"center",alignItems:"flex-start",fontFamily:"sans-serif",fontWeight:"bolder",flexWrap:"nowrap",maxWidth:"800px"}}>
                     {categories.map((cat)=>(
-                        <button key={cat}>{cat}</button>
+                        <CategoryCard key={cat} name={cat} onclick={()=>handleCategoryClick(cat)}></CategoryCard>
                     ))}
                 </div>
+                    {selectedCategory&&(
+                        <p style={{marginTop:"20px"}}>
+                            Categoria Selecionada: <strong>{selectedCategory}</strong>
+                        </p>
+                    )}
             </div>
     </div>
 ); 
