@@ -51,7 +51,7 @@ const videosByCategory = {
     Quedas:[
         {
             id:6, 
-            title:"Variações do oshi-garami",
+            title:"Variações do Ashi-garami",
             level:"Avançado" 
         }, 
     ], 
@@ -67,23 +67,26 @@ function handleCategoryClick(category){
 
 // Função com elementos e interface do Usuario 
 return(
-        <div style={{display:"flex", flexDirection:"column", padding:"40px 20px", justifyContent:"center",alignItems:"center",minHeight:"100vh", }}>
-            <div style={{padding:"40px",borderRadius:"12px", textAlign:"center", marginBottom:"100%"}}>
+            <div style={{padding:"40px",borderRadius:"12px", textAlign:"center", marginBottom:"40px"}}>
                 <h1 style={{fontFamily:"sans-serif",marginBottom:"30px",textAlign:"left",fontSize:"2rem"}}>Estudos de Jiu-jitsu</h1>
-                <div style={{display:"flex",gap:"12px",marginTop:"5px", flexDirection:"column",justifyContent:"center",alignItems:"flex-start",fontFamily:"sans-serif",fontWeight:"bolder",flexWrap:"nowrap",maxWidth:"800px"}}>
+
+            <div style={{display:"flex",flexDirection:"row",gap:"100px",alignItems:"center",width:"100%",maxWidth:"1000px",justifyContent:"space-evenly",margin:"10px",padding:"10px"}}>
+                <div style={{display:"flex",flexDirection:"column",gap:"10px",minWidth:"200px"}}>
                     {categories.map((cat)=>(
                         <CategoryCard key={cat} name={cat} onclick={()=>handleCategoryClick(cat)}></CategoryCard>
                     ))}
                 </div>
-                    {selectedCategory&&(
-                       <div style={{marginTop:"30px"}}>
-                        <h2>Videos de {selectedCategory}</h2> 
 
+                <div style={{display:"flex",alignItems:"flex-end"}}>
+                    {selectedCategory&&(
+                       <div>
+                        <h2>Videos de {selectedCategory}</h2> 
                         {videosByCategory[selectedCategory].map((video)=>(
                             <VideoCard key={video.id} title={video.title} level={video.level}></VideoCard>
                         ))}
                        </div>
                     )}
+                    </div>
             </div>
     </div>
 ); 
