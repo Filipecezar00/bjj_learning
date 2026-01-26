@@ -66,13 +66,32 @@ const videosByCategory = {
 const categories = Object.keys(videosByCategory); 
 
 const [selectedCategory,setSelectedCategory] = useState(null) 
+const [selectedVideo,setSelectedVideo] = useState(null) 
 
 function handleCategoryClick(category){
     setSelectedCategory(category); 
 
 }
+if(selectedVideo){    
+return(
+                <div style={{padding:"24px"}}>
+                    <h1>{selectedVideo}</h1>
+                    <p>Nível: {selectedVideo.level}</p>
+
+
+                    <p style={{marginTop:"16px"}}>
+                         <small>Video do youtube</small>
+                         <small>Resumo da Técnica</small> 
+                         <small>Chatbot treinador</small>
+                    </p>
+
+                    <button onClick={()=>setSelectedVideo(null)} style={{marginTop:"20px"}}>Voltar para Vídeos</button>
+                </div>
+)
+}
 
 // Função com elementos e interface do Usuario 
+
 return(
             <div style={{padding:"40px",borderRadius:"12px", textAlign:"center", marginBottom:"40px"}}>
                 <h1 style={{fontFamily:"sans-serif",marginBottom:"30px",textAlign:"left",fontSize:"2rem"}}>Estudos de Jiu-jitsu</h1>
@@ -89,12 +108,11 @@ return(
                        <div>
                         <h2>Videos de {selectedCategory}</h2> 
                         {videosByCategory[selectedCategory].map((video)=>(
-                            <VideoCard key={video.id} title={video.title} level={video.level}></VideoCard>
+                            <VideoCard key={video.id} title={video.title} level={video.level} onclick={()=>setSelectedVideo(video)}></VideoCard> 
                         ))}
                        </div>
                     )}
                     </div>
             </div>
     </div>
-); 
-}
+    )}
