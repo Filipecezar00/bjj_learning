@@ -1,17 +1,18 @@
 import {useState} from "react" 
 import CategoryCard from "../components/CategoryCard"; 
+import VideoCard from "../components/VideoCard"; 
 
 export default function Home(){
 
 // Criando estrutura de objetos 
 
-const categories = [
-    "Guarda", 
-    'Passagem', 
-    'Finalizações', 
-    'Defesa', 
-    'Quedas', 
-]; 
+// const categories = [
+//     "Guarda", 
+//     'Passagem', 
+//     'Finalizações', 
+//     'Defesa', 
+//     'Quedas', 
+// ]; 
 
 const videosByCategory = {
  Guarda: [
@@ -55,12 +56,11 @@ const videosByCategory = {
         }, 
     ], 
 };
-
+const categories = Object.keys(videosByCategory); 
 
 const [selectedCategory,setSelectedCategory] = useState(null) 
 
 function handleCategoryClick(category){
-    console.log("Categoria Clicada:", category);  
     setSelectedCategory(category); 
 
 }
@@ -76,9 +76,13 @@ return(
                     ))}
                 </div>
                     {selectedCategory&&(
-                        <p style={{marginTop:"20px"}}>
-                            Categoria Selecionada: <strong>{selectedCategory}</strong>
-                        </p>
+                       <div style={{marginTop:"30px"}}>
+                        <h2>Videos de {selectedCategory}</h2> 
+
+                        {videosByCategory[selectedCategory].map((video)=>(
+                            <VideoCard key={video.id} title={video.title} level={video.level}></VideoCard>
+                        ))}
+                       </div>
                     )}
             </div>
     </div>
