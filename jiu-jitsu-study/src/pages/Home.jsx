@@ -55,6 +55,13 @@ const videosByCategory = {
             level:"Avançado" 
         }, 
     ], 
+    Drills:[
+        {
+            id:7, 
+            title:"Drill de Passagem de Guarda", 
+            level:"Iniciante", 
+        }, 
+    ], 
 };
 const categories = Object.keys(videosByCategory); 
 
