@@ -12,6 +12,51 @@ const categories = [
     'Defesa', 
     'Quedas', 
 ]; 
+
+const videosByCategory = {
+ Guarda: [
+        {
+            id:1, 
+            title:"Fundamentos da Guarda Fechada", 
+            level:"Iniciante", 
+        }, 
+        {
+            id:2, 
+            title:"Fundamentos da guarda laço", 
+            level:"iniciante",  
+        }, 
+    ], 
+    Passagem:[
+        {
+            id:3,  
+            title:"Fundamentos da Passagem", 
+            level:"Intermediário", 
+        }, 
+    ], 
+    Finalizações:[
+        {
+            id:4,
+            title:"Variações da Homoplata", 
+            level:"Intermediário", 
+        }, 
+    ], 
+    Defesa:[
+        {
+            id:5, 
+            title:"Defesa do Triângulo", 
+            level:"Intermediário", 
+        }, 
+    ], 
+    Quedas:[
+        {
+            id:6, 
+            title:"Variações do oshi-garami",
+            level:"Avançado" 
+        }, 
+    ], 
+};
+
+
 const [selectedCategory,setSelectedCategory] = useState(null) 
 
 function handleCategoryClick(category){
