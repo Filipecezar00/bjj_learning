@@ -83,12 +83,13 @@ const categories = Object.keys(videosByCategory);
 const [selectedCategory,setSelectedCategory] = useState(null) 
 const [selectedVideo,setSelectedVideo] = useState(null) 
 
+
 function handleCategoryClick(category){
     setSelectedCategory(category); 
 }
 if(selectedVideo){    
 return(
-        <VideoPage video={selectedVideo} onBack={()=>setSelectedVideo(null)}></VideoPage>
+        <VideoPage video={selectedVideo} onBack={()=>setSelectedVideo(null)}></VideoPage>        
 )
 }
 
