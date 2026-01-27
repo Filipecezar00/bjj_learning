@@ -6,11 +6,11 @@ return (
 
         <p style={{marginTop:"16px"}}>
                 <br />Video do Youtube 
-                <br />Resumo da Técnica
+                <br /><strong>Resumo da técnica: {video.summary}</strong>
                 <br />Chatbot Treinador 
         </p>
 
-        <button onClick={onBack} style={{marginTop:"20px"}}>Voltar</button>
+        <button onClick={onBack} style={{marginTop:"20px"}}>Voltar para as Categorias</button>
     </div>
     ); 
 }

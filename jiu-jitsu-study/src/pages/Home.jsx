@@ -1,6 +1,7 @@
 import {useState} from "react" 
 import CategoryCard from "../components/CategoryCard"; 
 import VideoCard from "../components/VideoCard"; 
+import VideoPage from "./VideoPage"; 
 
 export default function Home(){
 
@@ -20,11 +21,13 @@ const videosByCategory = {
             id:1, 
             title:"Fundamentos da Guarda Fechada", 
             level:"Iniciante", 
+            summary:"O objetivo dessa posição é quebrar a Postura do adversário, visando retenção."
         }, 
         {
             id:2, 
             title:"Fundamentos da guarda laço", 
             level:"iniciante",  
+            summary:"Essa posição visa quebrar o alinhamento do oponente, facilitando para raspagens e finalizações como armbars e triangulos."
         }, 
     ], 
     Passagem:[
@@ -32,6 +35,7 @@ const videosByCategory = {
             id:3,  
             title:"Fundamentos da Passagem", 
             level:"Intermediário", 
+            summary:"A passagem é um dos pilares do jiu-jitsu, sua eficacia é ainda maior quando aplicado as tecnicas corretas"
         }, 
     ], 
     Finalizações:[
@@ -39,6 +43,7 @@ const videosByCategory = {
             id:4,
             title:"Variações da Homoplata", 
             level:"Intermediário", 
+            summary:"A homoplata permite trabalhar multiplas finalizações a partir de sua aplicação"
         }, 
     ], 
     Defesa:[
@@ -46,13 +51,15 @@ const videosByCategory = {
             id:5, 
             title:"Defesa do Triângulo", 
             level:"Intermediário", 
+            summary:"A defesa do Triângulo consiste em simular o atendimento de um telefone, com as mão na Orelha"
         }, 
     ], 
     Quedas:[
         {
             id:6, 
             title:"Variações do Ashi-garami",
-            level:"Avançado" 
+            level:"Avançado",  
+            summary:"O ashi consiste em 'varrer' a perna do oponente enquanto domina a outra"
         }, 
     ], 
     Drills:[
@@ -60,6 +67,7 @@ const videosByCategory = {
             id:7, 
             title:"Drill de Passagem de Guarda", 
             level:"Iniciante", 
+            summary:"Esse Drill muda a Eficacia da sua passagem" 
         }, 
     ], 
 };
@@ -74,19 +82,7 @@ function handleCategoryClick(category){
 }
 if(selectedVideo){    
 return(
-                <div style={{padding:"24px"}}>
-                    <h1>{selectedVideo.title}</h1>
-                    <p>Nível: {selectedVideo.level}</p>
-
-
-                    <p style={{marginTop:"16px"}}>
-                         <small>Video do youtube</small> <br />
-                         <small>Resumo da Técnica</small> <br />
-                         <small>Chatbot treinador</small>
-                    </p>
-
-                    <button onClick={()=>setSelectedVideo(null)} style={{marginTop:"20px"}}>Voltar para Vídeos</button>
-                </div>
+        <VideoPage video={selectedVideo} onBack={()=>setSelectedVideo(null)}></VideoPage>
 )
 }
 
