@@ -75,13 +75,13 @@ function handleCategoryClick(category){
 if(selectedVideo){    
 return(
                 <div style={{padding:"24px"}}>
-                    <h1>{selectedVideo}</h1>
+                    <h1>{selectedVideo.title}</h1>
                     <p>Nível: {selectedVideo.level}</p>
 
 
                     <p style={{marginTop:"16px"}}>
-                         <small>Video do youtube</small>
-                         <small>Resumo da Técnica</small> 
+                         <small>Video do youtube</small> <br />
+                         <small>Resumo da Técnica</small> <br />
                          <small>Chatbot treinador</small>
                     </p>
 
