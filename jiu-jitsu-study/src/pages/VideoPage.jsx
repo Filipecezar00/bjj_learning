@@ -5,8 +5,9 @@ return (
         <p>Nível: {video.title}</p> 
 
         <p style={{marginTop:"16px"}}>
-                <br />Video do Youtube 
-                <br /><strong>Resumo da técnica: {video.summary}</strong>
+                <br />Video do Youtube  <br />
+                <br /><strong>Resumo da técnica: {video.summary}</strong> <br />
+                <br /><strong>Quando aplicar: {video.applyTips} </strong> <br />
                 <br />Chatbot Treinador 
         </p>
 
