@@ -1,4 +1,5 @@
-import {useState} from "react" 
+import {useState} from "react"; 
+import {chatbot} from "../chatbot/chatbot";  
 import CategoryCard from "../components/CategoryCard"; 
 import VideoCard from "../components/VideoCard"; 
 import VideoPage from "./VideoPage"; 
@@ -14,7 +15,6 @@ export default function Home(){
 //     'Defesa', 
 //     'Quedas', 
 // ]; 
-
 const videosByCategory = {
  Guarda: [
         {
@@ -80,8 +80,25 @@ const videosByCategory = {
 };
 const categories = Object.keys(videosByCategory); 
 
-const [selectedCategory,setSelectedCategory] = useState(null) 
-const [selectedVideo,setSelectedVideo] = useState(null) 
+const [selectedCategory,setSelectedCategory] = useState(null);  
+const [selectedVideo,setSelectedVideo] = useState(null);  
+
+const [chatHistory,setChatHistory] = useState([]); 
+const [question,setQuestion] = useState("");  
+
+function handleAskChatbot(video){
+    if(!question) return; 
+    const answer = chatbot(question,video); 
+
+    setChatHistory((prev)=>[
+        ...prev, 
+        {
+            question, 
+            answer, 
+        }, 
+    ]); 
+    setQuestion("")
+}
 
 
 function handleCategoryClick(category){

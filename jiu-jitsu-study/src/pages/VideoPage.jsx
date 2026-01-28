@@ -5,7 +5,7 @@ export default function VideoPage({video,onBack}){
 const [question,setQuestion] = useState(""); 
 const [answer,setAnswer] = useState("")
 
-function handleAsk(){
+function handleAsk(video){
  const response = chatbot(question,video);  
  setAnswer(response) 
 }
