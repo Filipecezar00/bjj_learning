@@ -1,17 +1,13 @@
 import { useState } from "react"; 
-
+import { chatbot } from "../chatbot/chatbot"; 
+ 
 export default function VideoPage({video,onBack}){
 const [question,setQuestion] = useState(""); 
 const [answer,setAnswer] = useState("")
 
 function handleAsk(){
-  if(question.toLowerCase().includes("quando")){
-    setAnswer("Essa técnica funciona quando os detalhes técnicos no video são bem aplicados."); 
-  }else if (question.toLowerCase().includes("quem")){
-    setAnswer("Essa técnica funciona mellhor contra adversários com peso a partir de 80KG"); 
-  }else{
-    setAnswer("Foque em entender a oportunidade de aplicação dessa técnica em especifico"); 
-  }
+ const response = chatbot(question,video);  
+ setAnswer(response) 
 }
 
 return(
