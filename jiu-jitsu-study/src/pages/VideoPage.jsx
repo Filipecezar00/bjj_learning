@@ -47,7 +47,7 @@ return(
              ))}
 
              {loading&&(
-                <p> style={{fontStyle:"italic",color:"rgb(52, 119, 46)"}} Treinador Pensando</p> 
+                <p style={{fontStyle:"italic",color:"rgb(52, 119, 46)"}}> Treinador Pensando</p> 
              )}             
              
          </div>

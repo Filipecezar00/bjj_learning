@@ -3,95 +3,10 @@ import {chatbot} from "../chatbot/chatbot";
 import CategoryCard from "../components/CategoryCard"; 
 import VideoCard from "../components/VideoCard"; 
 import VideoPage from "./VideoPage"; 
+import {videosByCategory} from "../data/videos"
 
 export default function Home(){
 
-// Criando estrutura de objetos 
-
-// const categories = [
-//     "Guarda", 
-//     'Passagem', 
-//     'Finalizações', 
-//     'Defesa', 
-//     'Quedas', 
-// ]; 
-const videosByCategory = {
- Guarda: [
-        {
-            id:1, 
-            title:"Fundamentos da Guarda Fechada", 
-            level:"Iniciante", 
-            summary:"O objetivo dessa posição é quebrar a Postura do adversário, visando retenção.", 
-            applyTips:[
-                "Aplique quando o usuario estiver desalinhado dentro da guarda."
-            ]
-        }, 
-        {
-            id:2, 
-            title:"Fundamentos da guarda laço", 
-            level:"iniciante",  
-            summary:"Essa posição visa quebrar o alinhamento do oponente, facilitando para raspagens e finalizações como armbars e triangulos.", 
-            applyTips:[
-                "Aplique quando estiver na aranha, visando fazer uma adptação rapida no fluxo do jogo."
-            ]
-        }, 
-    ], 
-    Passagem:[
-        {
-            id:3,  
-            title:"Fundamentos da Passagem", 
-            level:"Intermediário", 
-            summary:"A passagem é um dos pilares do jiu-jitsu, sua eficacia é ainda maior quando aplicado as tecnicas corretas", 
-            applyTips:[
-                "Aplique quando estiver 'toureando' o oponente para concluir a passagem"
-            ]
-        }, 
-    ], 
-    Finalizações:[
-        {
-            id:4,
-            title:"Variações da Homoplata", 
-            level:"Intermediário", 
-            summary:"A homoplata permite trabalhar multiplas finalizações a partir de sua aplicação", 
-            applyTips:[
-                "Aplique quando o oponente estiver resistindo a chave de braço dentro da guarda"
-            ]
-        }, 
-    ], 
-    Defesa:[
-        {
-            id:5, 
-            title:"Defesa do Triângulo", 
-            level:"Intermediário", 
-            summary:"A defesa do Triângulo consiste em simular o atendimento de um telefone, com as mão na Orelha", 
-            applyTips:[
-                "Aplique quando estiver tomando o triângulo dentro da guarda do oponente"
-            ]
-        }, 
-    ], 
-    Quedas:[
-        {
-            id:6, 
-            title:"Variações do Ashi-garami",
-            level:"Avançado",  
-            summary:"O ashi consiste em 'varrer' a perna do oponente enquanto domina a outra", 
-            applyTips:["Aplique quando dominar uma das pernas do adversario, ainda quando o combate estiver em pé"
-
-            ]
-        }, 
-    ], 
-    Drills:[
-        {
-            id:7, 
-            title:"Drill de Passagem de Guarda", 
-            level:"Iniciante", 
-            summary:"Esse Drill muda a Eficacia da sua passagem", 
-            applyTips:[
-                "Aplique quando quiser ampliar seu jogo de passagem" 
-            ]
-        }, 
-    ], 
-};
 const categories = Object.keys(videosByCategory); 
 
 const [selectedCategory,setSelectedCategory] = useState(null);  
@@ -101,8 +16,6 @@ const [chatHistory,setChatHistory] = useState([]);
 const [question,setQuestion] = useState("");  
 
 const [loading,setLoading] = useState(false) 
-
-
 
 function handleAskChatbot(video){
     if(!question.trim()) return;  
@@ -118,9 +31,7 @@ function handleAskChatbot(video){
     setQuestion(""),
    setLoading(false) 
 },600)
-
-
-    
+   
 }
 
 
