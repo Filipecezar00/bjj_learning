@@ -27,7 +27,8 @@ function handleAskChatbot(video){
     const answer = chatbot(question,video);   
     setChatHistory((prev)=>[
         ...prev, 
-        {question, answer, }, 
+        {question},
+        {answer} 
     ]); 
     setQuestion(""),
    setLoading(false) 
