@@ -29,6 +29,7 @@ return(
                  <input type="text" value={question} onChange={(e)=>setQuestion(e.target.value)} placeholder="Digite sua Dúvida" style={{width:"300px",height:"100px"}}/> 
 
                 <button onClick={onAsk} disabled={!question.trim()} style={{marginLeft:"15px",margin:"20px",opacity:question.trim() ? 1 : 0.5, cursor:question.trim() ? "pointer" : "not-allowed"}}>Perguntar</button> 
+                
         <div style={{marginTop:"20px"}}>
              {chatHistory.map((item,index)=>(
                 <div key={index}>

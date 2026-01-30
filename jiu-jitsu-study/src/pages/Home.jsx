@@ -100,19 +100,27 @@ const [selectedVideo,setSelectedVideo] = useState(null);
 const [chatHistory,setChatHistory] = useState([]); 
 const [question,setQuestion] = useState("");  
 
+const [loading,setLoading] = useState(false) 
+
+
+
 function handleAskChatbot(video){
     if(!question.trim()) return;  
 
-    const answer = chatbot(question,video); 
+    setLoading(true); 
 
+    setTimeout(()=>{
+    const answer = chatbot(question,video);   
     setChatHistory((prev)=>[
         ...prev, 
-        {
-            question, 
-            answer, 
-        }, 
+        {question, answer, }, 
     ]); 
-    setQuestion("")
+    setQuestion(""). 
+    setLoading(false); 
+},600)
+
+
+    
 }
 
 
