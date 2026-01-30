@@ -106,8 +106,8 @@ function handleCategoryClick(category){
 }
 if(selectedVideo){    
 return(
-        <VideoPage video={selectedVideo} onBack={()=>setSelectedVideo(null)}></VideoPage>        
-)
+        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAskChatbot(selectedVideo)}></VideoPage>        
+    )
 }
 
 // Função com elementos e interface do Usuario 
