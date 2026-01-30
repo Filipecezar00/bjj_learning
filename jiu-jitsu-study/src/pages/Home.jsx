@@ -115,8 +115,8 @@ function handleAskChatbot(video){
         ...prev, 
         {question, answer, }, 
     ]); 
-    setQuestion(""). 
-    setLoading(false); 
+    setQuestion(""),
+   setLoading(false) 
 },600)
 
 
@@ -129,7 +129,7 @@ function handleCategoryClick(category){
 }
 if(selectedVideo){    
 return(
-        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAskChatbot(selectedVideo)}></VideoPage>        
+        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAskChatbot(selectedVideo)} loading={loading}></VideoPage>        
     )
 }
 
