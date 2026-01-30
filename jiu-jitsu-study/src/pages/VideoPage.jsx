@@ -25,17 +25,16 @@ return(
                  <input type="text" value={question} onChange={(e)=>setQuestion(e.target.value)} placeholder="Digite sua Dúvida" style={{width:"300px",height:"100px"}}/> 
 
                 <button onClick={onAsk} style={{marginLeft:"15px",margin:"20px"}}>Perguntar</button>
-                
+                     
         <div style={{marginTop:"20px"}}>
            {Array.isArray(chatHistory) && chatHistory.map((item,index)=>(
             <div key={index} style={{marginBottom:"10px"}}>
-                <P>Você: {item.question}</P> 
+                <p>Você: {item.question}</p> 
                 <br /> 
                 <p>Treinador: {item.answer}</p>
             </div>
            ))}
          </div>      
-         
         <button onClick={onBack} style={{marginTop:"20px"}}>Voltar para as Categorias</button>
     </div>
     ); 
