@@ -4,6 +4,7 @@ import CategoryCard from "../components/CategoryCard";
 import VideoCard from "../components/VideoCard"; 
 import VideoPage from "./VideoPage"; 
 import {videosByCategory} from "../data/videos"
+import Layout from "../components/Layout";
 
 export default function Home(){
 
@@ -47,6 +48,7 @@ return(
 // Função com elementos e interface do Usuario 
 
 return(
+    <Layout>
             <div style={{padding:"40px",borderRadius:"12px", textAlign:"center", marginBottom:"40px"}}>
                 <h1 style={{fontFamily:"sans-serif",marginBottom:"30px",textAlign:"left",fontSize:"2rem"}}>Estudos de Jiu-jitsu</h1>
 
@@ -66,7 +68,8 @@ return(
                         ))}
                        </div>
                     )}
-                    </div>
-            </div>
-    </div>
+                        </div>
+                </div>
+        </div>
+</Layout>
     )}
