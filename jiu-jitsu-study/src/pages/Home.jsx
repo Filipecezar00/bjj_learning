@@ -18,22 +18,28 @@ const [question,setQuestion] = useState("");
 
 const [loading,setLoading] = useState(false) 
 
-function handleAskChatbot(video){
-    if(!question.trim()) return;  
+function handleAsk(video){
+setLoading(true)
 
-    setLoading(true); 
+const response = await fetch("http://localhost:3000/chat",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"}, 
+    body:JSON.stringify({
+        question,
+        video 
+    })
+}); 
 
-    setTimeout(()=>{
-    const answer = chatbot(question,video);   
-    setChatHistory((prev)=>[
-        ...prev, 
-        {question},
-        {answer} 
-    ]); 
-    setQuestion(""),
-   setLoading(false) 
-},600)
-   
+const data = await response.json() 
+
+setChatHistory(prev=>[
+    ...prev, 
+    {question},
+    {answer} 
+]); 
+
+setQuestion(""); 
+setLoading(false) 
 }
 
 
