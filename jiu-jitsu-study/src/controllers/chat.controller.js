@@ -5,7 +5,7 @@ export async function askChatbot(req,res){
 
         const {question,video} = req.body 
 
-        if(!question|| !video){
+        if(!question||!video){
             return res.status(400).json({error:"Dados Inválidos ou Incompletos"})
         }
         
