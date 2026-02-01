@@ -36,7 +36,7 @@ const data = await response.json()
 setChatHistory(prev=>[
     ...prev, 
     {question},
-    {answer} 
+    {video} 
 ]); 
 
 setQuestion(""); 
@@ -49,7 +49,7 @@ function handleCategoryClick(category){
 }
 if(selectedVideo){    
 return(
-        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAskChatbot(selectedVideo)} loading={loading}></VideoPage>        
+        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAsk(selectedVideo)} loading={loading}></VideoPage>        
     )
 }
 
