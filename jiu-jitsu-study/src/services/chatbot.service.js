@@ -1,9 +1,24 @@
-export function chatbotService(question,video){
+import { OpenAI } from "openai"; 
 
-    if(question.toLowerCase().includes("Quando")) return `Aplique a tecnica ${video.title} quando ${video.applyTips.toLowerCase()}.` 
+const client = new OpenAI({
+    apiKey:process.env.OPENAI_API_KEY  
+}); 
 
-    if(question.toLowerCase().includes("nivel")) return `Essa técnica é recomendada para o nivel ${video.level}.`
+export async function askAI(question,video){
+    const prompt = `
+    Você é um treinador de jiu-jitsu, explique a técnica "${video.title}". 
+    Resumo : ${video.summary} 
+    Quando aplicar: ${video.applyTips.join(", ")}
 
-    return `Treine todos os Detalhes` 
+    Pergunta do aluno: ${question} 
+    `
+    const response = await client.chat.completions.create({
+        model:"gpt-4o-mini", 
+        messages:[
+            {role:"system",content:"Você é um treinador de jiu-jitsu experiente."}, 
+            {role:"user",content:prompt}
+        ]
+    });
 
+    return response.choices[0].message.content; 
 }
