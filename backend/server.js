@@ -1,7 +1,6 @@
 // Importações
 import express from "express"; 
-import cors from "cors"; 
-import chatRoutes from "./routes/chat.routes"; 
+import cors from "cors";  
 
 // Chamando a função
 const app = express(); 
@@ -11,7 +10,23 @@ app.use(cors());
 app.use(express.json()); 
 
 // Rota do chat
-app.use("/chat",chatRoutes); 
+app.get('/',(req,res)=>{
+    res.send("Backend funcionando")
+})
+
+app.post("/chatbot",(req,res)=>{
+    const {question,video} = req.body 
+
+    if(!question || !video){
+        return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
+    }
+    const resposta = `
+    Técnica : ${video.titile}\n
+    Resumo da técnica: ${video.summary}\n
+    Aplicando na prática: ${video.applyTips}\n
+    `
+    res.json({resposta}); 
+})
 
 // Chamada do Servidor  
 app.listen(3000,()=>{
