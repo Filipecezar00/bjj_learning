@@ -1,13 +1,13 @@
 import { useState } from "react"; 
 import { chatbot } from "../chatbot/chatbot"; 
 import{useEffect,useRef} from "react"
+import { askChatbot } from "../services/chatbotService";
  
 export default function VideoPage({video,question,setQuestion,chatHistory,loading,onAsk,onBack}){
 
-// function handleAsk(video){
-//  const response = chatbot(question,video);  
-//  setAnswer(response) 
-// }
+const [loading,setLoading] = useState(false)
+const [answer,setAnswer] = useState(""); 
+const [error,setError] = useState("") 
 
 const chatEndRef = useRef(null); 
  useEffect(()=>{
