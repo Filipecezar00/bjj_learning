@@ -9,6 +9,24 @@ const [loading,setLoading] = useState(false)
 const [answer,setAnswer] = useState(""); 
 const [error,setError] = useState("") 
 
+async function handleAsk(){
+    setLoading(true); 
+    setError("");
+    setAnswer("");
+
+    try{
+        const response = await askChatbot(question,video); 
+        setAnswer(response);  
+    }catch(error){
+        setError("Erro ao falar com o treinador. Tente novamente"); 
+    }finally{
+        setLoading(false)
+    }
+}
+
+
+
+
 const chatEndRef = useRef(null); 
  useEffect(()=>{
     chatEndRef.current?.scrollIntoView ({behavior:"smooth"})
