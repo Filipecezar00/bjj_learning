@@ -33,13 +33,12 @@ const response = await fetch("http://localhost:3000/chatbot",{
 
 
 const data = await response.json() 
-console.log("Reposta do BackEnd",data)
 
 setChatHistory(prev=>[
-    ...prev, 
+    ...prev,    
     {
         question,
-        answer:JSON.stringify(data) 
+        answer: data.resposta 
     }
 ]); 
 

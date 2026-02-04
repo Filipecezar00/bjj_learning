@@ -20,10 +20,12 @@ app.post("/chatbot",(req,res)=>{
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
     }
+    console.log("Video recebido no backend:",video) 
+    
     const resposta = `
-    Técnica : ${video.titile}\n
+    // Técnica : ${video.title}\n
     Resumo da técnica: ${video.summary}\n
-    Aplicando na prática: ${video.applyTips}\n
+    Aplicando na prática: ${video.applyTips.join("\n-")}\n
     `
     res.json({resposta}); 
 })
