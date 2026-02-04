@@ -2,7 +2,7 @@ const API_URL  = "http://localhost:3000"
 
 export async function askChatbot(question,video){
     try{
-        const response = await fetch(`${API_URL}/chatbot`,{
+        const response = await fetch(`${API_URL}/chatbot`,{   
             method:"POST",
             headers:{
                 "Content-Type":"application/json", 

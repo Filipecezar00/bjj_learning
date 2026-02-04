@@ -1,37 +1,17 @@
 import { useState } from "react"; 
-import { chatbot } from "../chatbot/chatbot"; 
 import{useEffect,useRef} from "react"
-import { askChatbot } from "../services/chatbotService";
  
 export default function VideoPage({video,question,setQuestion,chatHistory,loading,onAsk,onBack}){
-
-const [loading,setLoading] = useState(false)
-const [answer,setAnswer] = useState(""); 
-const [error,setError] = useState("") 
-
-async function handleAsk(){
-    setLoading(true); 
-    setError("");
-    setAnswer("");
-
-    try{
-        const response = await askChatbot(question,video); 
-        setAnswer(response);  
-    }catch(error){
-        setError("Erro ao falar com o treinador. Tente novamente"); 
-    }finally{
-        setLoading(false)
-    }
-}
+        
+    const [error,setError] = useState("")
+    const chatEndRef = useRef(null); 
 
 
-
-
-const chatEndRef = useRef(null); 
  useEffect(()=>{
     chatEndRef.current?.scrollIntoView ({behavior:"smooth"})
 },[chatHistory,loading]) ; 
 
+console.log("chatHistory recebido: " , chatHistory); 
 return(
     
     <div style={{padding:"24px"}}>
@@ -52,21 +32,24 @@ return(
                 
                  <input type="text" value={question} onChange={(e)=>setQuestion(e.target.value)} placeholder="Digite sua Dúvida" style={{width:"300px",height:"100px"}}/> 
 
-                <button onClick={onAsk} disabled={!question.trim()} style={{marginLeft:"15px",margin:"20px",opacity:question.trim() ? 1 : 0.5, cursor:question.trim() ? "pointer" : "not-allowed"}}>Perguntar</button> 
+            <button onClick={onAsk} disabled={loading}>
+                    {loading?"Pensando":"Perguntar"}
+            </button>
 
-        <div style={{marginTop:"20px"}}>
+      <div style={{marginTop:"20px"}}>
              {chatHistory.map((item,index)=>(
                 <div key={index}>
-                    <p>{item.question}</p> 
+                    <p>{JSON.stringify(item.answer)}</p> 
                     <br />
-                    <p>{item.answer}</p>
+                    <p>{JSON.stringify(item.answer)}</p>  
                     <div ref={chatEndRef}></div>
                 </div>
              ))}
 
-             {loading&&(
-                <p style={{fontStyle:"italic",color:"rgb(52, 119, 46)"}}> Treinador Pensando</p> 
-             )}             
+             <div ref={chatEndRef}>
+
+                {error && <p style={{color:"red"}}>{error}</p>}
+             </div>
              
          </div>
           

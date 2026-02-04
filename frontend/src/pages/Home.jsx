@@ -1,5 +1,4 @@
 import {useState} from "react"; 
-import {chatbot} from "../chatbot/chatbot";  
 import CategoryCard from "../components/CategoryCard"; 
 import VideoCard from "../components/VideoCard"; 
 import VideoPage from "./VideoPage"; 
@@ -20,27 +19,36 @@ const [loading,setLoading] = useState(false)
 
 async function handleAsk(video){
 
-setLoading(true)
+setLoading(true); 
 
-const response = await fetch("http://localhost:3000/chat",{
+try{
+const response = await fetch("http://localhost:3000/chatbot",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
     body:JSON.stringify({
         question,
         video 
-    })
-}); 
+        })
+    }); 
+
 
 const data = await response.json() 
+console.log("Reposta do BackEnd",data)
 
 setChatHistory(prev=>[
     ...prev, 
-    {question},
-    {video} 
+    {
+        question,
+        answer:data.message
+    }
 ]); 
 
 setQuestion(""); 
+}catch(err){
+    console.error("Erro no chatbot:",err) 
+}finally{
 setLoading(false) 
+}
 }
 
 
