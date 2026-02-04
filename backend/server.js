@@ -23,9 +23,9 @@ app.post("/chatbot",(req,res)=>{
     console.log("Video recebido no backend:",video) 
     
     const resposta = `
-    // Técnica : ${video.title}\n
-    Resumo da técnica: ${video.summary}\n
-    Aplicando na prática: ${video.applyTips.join("\n-")}\n
+    Técnica : ${video.title} - - - - - - -  
+    Resumo da técnica: ${video.summary} - - - - - - -  
+    Aplicando na prática: ${video.applyTips.join("\n-")}
     `
     res.json({resposta}); 
 })
