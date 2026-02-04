@@ -39,7 +39,7 @@ setChatHistory(prev=>[
     ...prev, 
     {
         question,
-        answer:data.message
+        answer:JSON.stringify(data) 
     }
 ]); 
 

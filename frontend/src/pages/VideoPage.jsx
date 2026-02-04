@@ -39,9 +39,9 @@ return(
       <div style={{marginTop:"20px"}}>
              {chatHistory.map((item,index)=>(
                 <div key={index}>
-                    <p>{JSON.stringify(item.answer)}</p> 
+                    <p>{item.question}</p> 
                     <br />
-                    <p>{JSON.stringify(item.answer)}</p>  
+                    <p>{item.answer}</p>
                     <div ref={chatEndRef}></div>
                 </div>
              ))}
