@@ -1,4 +1,3 @@
-import { useState } from "react"; 
 import{useEffect,useRef} from "react"
 import ChatMessage from "../components/ChatMessage" 
 export default function VideoPage({video,question,setQuestion,chatHistory,loading,error,onAsk,onBack}){
@@ -9,7 +8,6 @@ export default function VideoPage({video,question,setQuestion,chatHistory,loadin
     chatEndRef.current?.scrollIntoView ({behavior:"smooth"})
 },[chatHistory,loading]) ; 
 
-console.log("chatHistory recebido: " , chatHistory); 
 return(
     
     <div style={{padding:"24px"}}>
