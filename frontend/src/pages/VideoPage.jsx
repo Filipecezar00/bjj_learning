@@ -35,20 +35,23 @@ return(
             <button onClick={onAsk} disabled={loading}>
                     {loading?"Pensando":"Perguntar"}
             </button>
-
       <div style={{marginTop:"20px"}}>
              {chatHistory.map((item,index)=>(
                 <div key={index}>
-                    <p>{item.question}</p> 
-                    <br />
-                    <p>{item.answer}</p>
-                    <div ref={chatEndRef}></div>
+                    <ChatMessage type="user" text={item.question}></ChatMessage>
+                    <ChatMessage type="bot" text={item.answer}></ChatMessage>
                 </div>
              ))}
-
              <div ref={chatEndRef}>
 
-                {error && <p style={{color:"red"}}>{error}</p>}
+             {loading&&(
+                <p style={{fontStyle:"normal",color:"#ffff"}}>Treinador Preparando Resposta.....</p> 
+             )}
+
+             {error &&(
+              <p style={{color:"red"}}>{error}</p>
+             )
+            }
              </div>
              
          </div>
