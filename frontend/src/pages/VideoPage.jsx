@@ -1,11 +1,9 @@
 import { useState } from "react"; 
 import{useEffect,useRef} from "react"
- 
-export default function VideoPage({video,question,setQuestion,chatHistory,loading,onAsk,onBack}){
-        
-    const [error,setError] = useState("")
-    const chatEndRef = useRef(null); 
+import ChatMessage from "../components/ChatMessage" 
+export default function VideoPage({video,question,setQuestion,chatHistory,loading,error,onAsk,onBack}){
 
+    const chatEndRef = useRef(null); 
 
  useEffect(()=>{
     chatEndRef.current?.scrollIntoView ({behavior:"smooth"})
@@ -17,7 +15,6 @@ return(
     <div style={{padding:"24px"}}>
         <h1>{video.title}</h1>
         <p>Nível: {video.level}</p> 
-
         <p><strong>Resumo do video:</strong>{video.summary}</p>
         
         <ul>
@@ -38,11 +35,10 @@ return(
       <div style={{marginTop:"20px"}}>
              {chatHistory.map((item,index)=>(
                 <div key={index}>
-                    <ChatMessage type="user" text={item.question}></ChatMessage>
-                    <ChatMessage type="bot" text={item.answer}></ChatMessage>
+                    <ChatMessage type="user" text={item.question}/>
+                    <ChatMessage type="bot" text={item.answer}/>
                 </div>
              ))}
-             <div ref={chatEndRef}>
 
              {loading&&(
                 <p style={{fontStyle:"normal",color:"#ffff"}}>Treinador Preparando Resposta.....</p> 
@@ -52,8 +48,7 @@ return(
               <p style={{color:"red"}}>{error}</p>
              )
             }
-             </div>
-             
+            <div ref={chatEndRef}/>
          </div>
           
         <button onClick={onBack} style={{marginTop:"20px"}}>Voltar para as Categorias</button>
