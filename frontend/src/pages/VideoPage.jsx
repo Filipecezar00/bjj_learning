@@ -32,7 +32,7 @@ return(
                 
                  <input type="text" value={question} onChange={(e)=>setQuestion(e.target.value)} placeholder="Digite sua Dúvida" style={{width:"300px",height:"100px"}}/> 
 
-            <button onClick={onAsk} disabled={loading}>
+            <button onClick={onAsk} disabled={loading || !question.trim()}> 
                     {loading?"Pensando":"Perguntar"}
             </button>
       <div style={{marginTop:"20px"}}>

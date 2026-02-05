@@ -19,6 +19,9 @@ app.post("/chatbot",(req,res)=>{
 
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
+    }else if(!question.trim()){
+        alert("Por favor mande uma pergunta") 
+        return; 
     }
     console.log("Video recebido no backend:",video) 
     
