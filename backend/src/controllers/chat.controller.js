@@ -1,6 +1,6 @@
-import {generateAnswer} from "../services/chatbot.service"; 
+import {generateAnswer} from "../services/chatservice"; 
 
-export async function askChatbot(req,res){
+export async function askChatbot(req,res,next){ 
     try{
         const {question,video} = req.body 
 
