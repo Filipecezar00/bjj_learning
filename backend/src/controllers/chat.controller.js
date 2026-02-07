@@ -1,4 +1,4 @@
-import {generateAnswer} from "../services/chatservice"; 
+import {generateAnswer} from "../services/chatservice.js"; 
 
 export async function askChatbot(req,res,next){ 
     try{

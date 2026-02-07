@@ -1,5 +1,5 @@
-import {buildPrompt} from "../utils/buildPrompt"; 
-import { askAI } from "./openai.service";  
+import {buildPrompt} from "../utils/buildPrompt.js"; 
+import { askAI } from "./openai.service.js";  
 
 export async function generateAnswer(question,video){ 
     const prompt = buildPrompt(question,video) 

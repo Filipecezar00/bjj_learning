@@ -1,7 +1,9 @@
 // Importações
 import express from "express"; 
 import cors from "cors";  
-// import app from "./src/app" ; 
+import { generateAnswer } from "./src/services/chatservice.js";
+import "dotenv/config" 
+ 
 
 // Chamando a função
 const app = express(); 
@@ -10,28 +12,29 @@ const app = express();
 app.use(cors()); 
 app.use(express.json()); 
 
-// Rota do chat
 app.get('/',(req,res)=>{
     res.send("Backend funcionando")
 })
 
-app.post("/chatbot",(req,res)=>{
+app.post("/chatbot",async(req,res)=>{
+ try{
     const {question,video} = req.body 
 
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
-    }else if(!question.trim()){
-        alert("Por favor mande uma pergunta") 
+    }
+    else if(!question.trim()){
+        res.json({message:"Por favor mande uma pergunta"}) 
         return; 
     }
-    console.log("Video recebido no backend:",video) 
-    
-    const resposta = `
-    Técnica : ${video.title} - - - - - - -  
-    Resumo da técnica: ${video.summary} - - - - - - -  
-    Aplicando na prática: ${video.applyTips}
-    `
+    const resposta = await generateAnswer(question,video)
     res.json({resposta}); 
+    }
+    catch(error){
+        console.log("Erro encontrado no servidor: " + error) 
+        res.status(500).json({error})
+    }
+   
 })
 
 // Chamada do Servidor  

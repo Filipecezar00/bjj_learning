@@ -1,6 +1,6 @@
 // Importações
 import {Router} from "express"; 
-import {askChatbot} from "../controllers/chat.controller"; 
+import {askChatbot} from "../controllers/chat.controller.js"; 
 
 // variavel da chamada de função
 const router = Router(); 
