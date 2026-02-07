@@ -1,7 +1,7 @@
 // Importações
 import express from "express"; 
 import cors from "cors";  
-import app from "./src/app" ; 
+// import app from "./src/app" ; 
 
 // Chamando a função
 const app = express(); 
@@ -29,7 +29,7 @@ app.post("/chatbot",(req,res)=>{
     const resposta = `
     Técnica : ${video.title} - - - - - - -  
     Resumo da técnica: ${video.summary} - - - - - - -  
-    Aplicando na prática: ${video.applyTips.join("\n-")}
+    Aplicando na prática: ${video.applyTips}
     `
     res.json({resposta}); 
 })
