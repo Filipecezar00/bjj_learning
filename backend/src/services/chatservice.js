@@ -1,11 +1,10 @@
 import {buildPrompt} from "../utils/buildPrompt"; 
+import { askAI } from "./openai.service";  
 
-export function generateAnswer(question,video){
-    const prompt = buildPrompt(question,video); 
+export async function generateAnswer(question,video){ 
+    const prompt = buildPrompt(question,video) 
 
-    //*********************************************
-    // Espaço para a IA ou banco de dados 
-    //*********************************************
-    
-    return prompt
+    const aiResponse = await askAI(prompt) 
+
+    return aiResponse; 
 }
