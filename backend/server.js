@@ -1,7 +1,8 @@
 // Importações
 import dotenv from "dotenv"; 
 dotenv.config(); 
- 
+console.log("GEMINI_API_KEY:",process.env.GEMINI_API_KEY); 
+
 import express from "express"; 
 import cors from "cors";  
 import { generateAnswer } from "./src/services/chatservice.js";
@@ -22,7 +23,7 @@ app.post("/chatbot",async(req,res)=>{
  try{
     const {question,video} = req.body 
 
-    console.log("API KEY'",process.env.OPENAI_API_KEY ? "OK" : "NÃO CARREGOU"); 
+    console.log("API KEY'",process.env.GEMINI_API_KEY ? "OK" : "NÃO CARREGOU"); 
 
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
