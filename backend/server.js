@@ -1,11 +1,11 @@
 // Importações
 import dotenv from "dotenv"; 
 dotenv.config(); 
-console.log("GEMINI_API_KEY:",process.env.GEMINI_API_KEY); 
+console.log("GROQ_API_KEY:",process.env.GROQ_API_KEY); 
 
 import express from "express"; 
 import cors from "cors";  
-import { generateAnswer } from "./src/services/chatservice.js";
+import chatRoutes  from "./src/routes/chat.routes.js"; 
 
 
 // Chamando a função
@@ -15,15 +15,18 @@ const app = express();
 app.use(cors()); 
 app.use(express.json()); 
 
+app.use("/api",chatRoutes); 
+
 app.get('/',(req,res)=>{
     res.send("Backend funcionando")
 })
+
 
 app.post("/chatbot",async(req,res)=>{
  try{
     const {question,video} = req.body 
 
-    console.log("API KEY'",process.env.GEMINI_API_KEY ? "OK" : "NÃO CARREGOU"); 
+    console.log("API KEY'",process.env.GROQ_API_KEY ? "OK" : "NÃO CARREGOU"); 
 
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
