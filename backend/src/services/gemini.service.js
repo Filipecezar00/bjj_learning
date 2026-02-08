@@ -8,6 +8,7 @@ console.log("A chave começa com AIza?",key?.startsWith("AIza"));
 console.log("Tamanho da Chave:",key?.length) 
 console.log("Tem espaços no final?",key !== key?.trim()?"SIM" : "NÃO")  
 console.log("---------------------------------------------------------------------------------")
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
  const model = genAI.getGenerativeModel({
