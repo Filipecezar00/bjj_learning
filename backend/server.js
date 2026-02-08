@@ -1,9 +1,11 @@
 // Importações
+import dotenv from "dotenv"; 
+dotenv.config(); 
+ 
 import express from "express"; 
 import cors from "cors";  
 import { generateAnswer } from "./src/services/chatservice.js";
-import "dotenv/config" 
- 
+
 
 // Chamando a função
 const app = express(); 
@@ -20,11 +22,13 @@ app.post("/chatbot",async(req,res)=>{
  try{
     const {question,video} = req.body 
 
+    console.log("API KEY'",process.env.OPENAI_API_KEY ? "OK" : "NÃO CARREGOU"); 
+
     if(!question || !video){
         return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
     }
     else if(!question.trim()){
-        res.json({message:"Por favor mande uma pergunta"}) 
+        res.json({message:"Por favor mande uma pergunta"}).status(400)  
         return; 
     }
     const resposta = await generateAnswer(question,video)
@@ -32,9 +36,8 @@ app.post("/chatbot",async(req,res)=>{
     }
     catch(error){
         console.log("Erro encontrado no servidor: " + error) 
-        res.status(500).json({error})
+        res.status(500).json({error:"Erro durante o processamento da resposta do chatbot"}) 
     }
-   
 })
 
 // Chamada do Servidor  

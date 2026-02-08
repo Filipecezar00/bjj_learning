@@ -1,12 +1,24 @@
 import  OpenAI  from "openai";  
 
-const client = new OpenAI({
-    apiKey:process.env.OPENAI_API_KEY  
-}); 
+let openai; 
 
-export async function askAI(prompt) 
-{    const response =  await client.chat.completions.create({
-        model:"gpt-4o-mini", 
+function getClient(){
+    if(!openai){
+        if(!process.env.OPENAI_API_KEY){
+            throw new Error("OPENAI_API_KEY não carregada"); 
+        }
+        openai = new OpenAI({
+        apiKey:process.env.OPENAI_API_KEY 
+        }); 
+    }
+    return openai; 
+}
+
+export async function askAI(prompt){   
+const client = getClient() 
+
+const response =  await client.chat.completions.create({
+    model:"gpt-4o-mini", 
         messages:[
             {
                 role:'system', 
@@ -21,3 +33,4 @@ export async function askAI(prompt)
     })
     return response.choices[0].message.content; 
 }
+export default openai;  
