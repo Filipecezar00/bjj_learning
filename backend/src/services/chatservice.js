@@ -1,10 +1,17 @@
-import {buildPrompt} from "../utils/buildPrompt.js"; 
-import { askAI } from "./openai.service.js";  
+import { askGemini } from "./gemini.service.js";   
 
 export async function generateAnswer(question,video){ 
-    const prompt = buildPrompt(question,video) 
+    const prompt = `
+    Você é um treinador de jiu-jitsu experiente, direto e com paciência limitada
+     Técnica : ${video.title} 
+     Resumo : ${video.summary}
+     Dicas práticas : ${video.applyTips.join("\n")}
 
-    const aiResponse = await askAI(prompt) 
+     Pergunta do Aluno: ${question}
 
-    return aiResponse; 
+     Responda de forma clara e prática 
+    `; 
+
+    const resposta = await askGemini(prompt) 
+    return resposta; 
 }
