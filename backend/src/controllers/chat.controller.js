@@ -1,22 +1,21 @@
-import {generateAnswer} from "../services/chatservice.js"; 
+import {askGroq} from "../services/groq.service.js"; 
 
-export async function askChatbot(req,res,next){ 
+export async function chat(req,res){  
     try{
-        const {question,video} = req.body 
+        const {message} = req.body;  
 
-        if(!question||!video){
-            return res.status(400).json({
-                success:false, 
-                error:"Pergunta ou video ausente" 
-            }); 
+        if(!message){
+            return res.status(400).json({erro:"Não foi possivel concluir a operação devido a um erro no servidor!"}); 
         }
-        const answer = await generateAnswer(question,video) ; 
 
-        res.json({
-            success:true,
-            data:{answer} 
+        const response = await askGroq(message);  
+
+      return res.json({
+            reply: response 
         }); 
+
     }catch(error){
-        next(error) 
+        console.error("Erro ao concluir Operação" + error);  
+        return res.status(500).json({error:"Ocorreu um erro de processamento com a inteligência artificial"}); 
     }
 }
