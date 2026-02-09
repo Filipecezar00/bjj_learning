@@ -14,49 +14,31 @@ const [selectedVideo,setSelectedVideo] = useState(null);
 
 const [chatHistory,setChatHistory] = useState([]); 
 const [question,setQuestion] = useState("");  
-
+const [resposta,setResposta] = useState("") 
 const [loading,setLoading] = useState(false) 
 
-async function handleAsk(video){
-
-setLoading(true); 
-
-try{
-const response = await fetch("http://localhost:3000/chatbot",{
+async function enviarPergunta(){
+console.log("Pergunta enviada", question); 
+const response = await fetch("http://localhost:3000/api/chatbot",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
     body:JSON.stringify({
-        question,
-        video 
-        })
-    }); 
-
+    prompt:question
+     })
+ }); 
 
 const data = await response.json() 
+console.log("Resposta do Backend: ", data)
 
-setChatHistory(prev=>[
-    ...prev,    
-    {
-        question,
-        answer: data.resposta 
-    }
-]); 
-
-setQuestion(""); 
-}catch(err){
-    console.error("Erro no chatbot:",err) 
-}finally{
-setLoading(false) 
+setResposta(data.resposta)
 }
-}
-
 
 function handleCategoryClick(category){
     setSelectedCategory(category); 
 }
 if(selectedVideo){    
 return(
-        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>handleAsk(selectedVideo)} loading={loading}></VideoPage>        
+        <VideoPage video={selectedVideo} question={question} setQuestion={setQuestion} chatHistory={chatHistory}  onBack={()=>setSelectedVideo(null)} onAsk={()=>enviarPergunta()} loading={loading} resposta={resposta}></VideoPage>        
     )
 }
 

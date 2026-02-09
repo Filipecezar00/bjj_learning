@@ -6,6 +6,7 @@ console.log("GROQ_API_KEY:",process.env.GROQ_API_KEY);
 import express from "express"; 
 import cors from "cors";  
 import chatRoutes  from "./src/routes/chat.routes.js"; 
+import { askGroq } from "./src/services/groq.service.js";
 
 
 // Chamando a função
@@ -21,28 +22,21 @@ app.get('/',(req,res)=>{
     res.send("Backend funcionando")
 })
 
+app.post("/api/chatbot",async(req,res)=>{
+try{
+    const {prompt} = req.body; 
 
-app.post("/chatbot",async(req,res)=>{
- try{
-    const {question,video} = req.body 
-
-    console.log("API KEY'",process.env.GROQ_API_KEY ? "OK" : "NÃO CARREGOU"); 
-
-    if(!question || !video){
-        return res.status(404).json({error:"Pergunta ou vídeo ausente"}) 
-    }
-    else if(!question.trim()){
-        res.json({message:"Por favor mande uma pergunta"}).status(400)  
-        return; 
-    }
-    const resposta = await generateAnswer(question,video)
+    if(!prompt || prompt.trim()) {
+        return res.status(400).json({error:"Por favor mande uma Pergunta"})
+    }; 
+    const resposta = await askGroq(prompt)
     res.json({resposta}); 
-    }
-    catch(error){
-        console.log("Erro encontrado no servidor: " + error) 
-        res.status(500).json({error:"Erro durante o processamento da resposta do chatbot"}) 
-    }
-})
+}
+catch(error){
+    console.error("Erro ao consumir a aplicação" + error)
+    res.status(500).json({error:"Erro no servidor"}) 
+}
+}); 
 
 // Chamada do Servidor  
 app.listen(3000,()=>{
