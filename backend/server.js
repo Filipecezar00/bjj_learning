@@ -26,7 +26,7 @@ app.post("/api/chatbot",async(req,res)=>{
 try{
     const {prompt} = req.body; 
 
-    if(!prompt || prompt.trim()) {
+    if(!prompt || !prompt.trim()) {
         return res.status(400).json({error:"Por favor mande uma Pergunta"})
     }; 
     const resposta = await askGroq(prompt)
