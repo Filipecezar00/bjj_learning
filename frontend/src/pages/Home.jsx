@@ -31,6 +31,7 @@ const data = await response.json()
 console.log("Resposta do Backend: ", data)
 
 setResposta(data.resposta)
+setQuestion(""); 
 }
 
 function handleCategoryClick(category){
