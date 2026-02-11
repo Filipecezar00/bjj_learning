@@ -19,26 +19,29 @@ app.use(express.json());
 app.use("/api",chatRoutes); 
 
 app.get('/',(req,res)=>{
-    res.send("Backend funcionando")
+    res.send("Backend funcionando"); 
 })
 
 app.post("/api/chatbot",async(req,res)=>{
 try{
-    const {prompt} = req.body; 
+    const {prompt,video} = req.body; 
 
     if(!prompt || !prompt.trim()) {
-        return res.status(400).json({error:"Por favor mande uma Pergunta"})
+        return res.status(400).json({error:"Por favor mande uma Pergunta"}); 
     }; 
-    const resposta = await askGroq(prompt)
+    if(!video){
+        return res.status(400).json({error:"Video indisponivel para acesso"}); 
+    }
+    const resposta = await askGroq(prompt,video); 
     res.json({resposta}); 
 }
 catch(error){
-    console.error("Erro ao consumir a aplicação" + error)
-    res.status(500).json({error:"Erro no servidor"}) 
+    console.error("Erro ao consumir a aplicação" + error);  
+    res.status(500).json({error:"Erro no servidor"}); 
 }
 }); 
 
 // Chamada do Servidor  
 app.listen(3000,()=>{
-    console.log("Servidor rodando")
+    console.log("Servidor rodando");
 })
