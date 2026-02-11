@@ -24,7 +24,7 @@ app.get('/',(req,res)=>{
 
 app.post("/api/chatbot",async(req,res)=>{
 try{
-    const {prompt,video} = req.body; 
+    const {prompt,video,history} = req.body; 
 
     if(!prompt || !prompt.trim()) {
         return res.status(400).json({error:"Por favor mande uma Pergunta"}); 
@@ -32,11 +32,11 @@ try{
     if(!video){
         return res.status(400).json({error:"Video indisponivel para acesso"}); 
     }
-    const resposta = await askGroq(prompt,video); 
+    const resposta = await askGroq(prompt,video,history);  
     res.json({resposta}); 
 }
 catch(error){
-    console.error("Erro ao consumir a aplicação" + error);  
+    console.error("Erro ao consumir a aplicação", error);  
     res.status(500).json({error:"Erro no servidor"}); 
 }
 }); 
