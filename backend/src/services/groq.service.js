@@ -17,7 +17,7 @@ export async function askGroq(prompt){
         messages:[
             {
                 role:"system", 
-                content:"Você é um treinador de jiu-jitsu didatico e com pouca paciência" 
+                content:"Você responde questões sobre jiu-jitsu de forma didatica" 
             }, 
 
             {
@@ -25,7 +25,7 @@ export async function askGroq(prompt){
                 content:prompt 
             }
         ],
-        temperature:0.7 
+        temperature:0.3
     }); 
     return completion.choices[0].message.content; 
 }
