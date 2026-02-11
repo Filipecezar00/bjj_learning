@@ -21,7 +21,7 @@ async function enviarPergunta(){
 
 if(!question.trim()) return;  
 setLoading(true); 
-
+try{
 const response = await fetch("http://localhost:3000/api/chatbot",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
@@ -30,8 +30,11 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
     video:selectedVideo, 
      })
  }); 
+}catch(error){
+    console.error("O mestre está limpando o tatame, tente novamente em outro momento");  
+}
 
-const data = await response.json() 
+const data = await response.json();  
 
 if(data.resposta){
 setChatHistory(prev=>[

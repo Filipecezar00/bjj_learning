@@ -1,7 +1,5 @@
 import Groq from "groq-sdk"; 
 
-
-
 export async function askGroq(prompt,video){
     if(!process.env.GROQ_API_KEY){
          console.error("A chave da Api não foi encontrada"); 
