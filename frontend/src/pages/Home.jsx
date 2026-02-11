@@ -18,7 +18,10 @@ const [resposta,setResposta] = useState("")
 const [loading,setLoading] = useState(false) 
 
 async function enviarPergunta(){
-console.log("Pergunta enviada", question); 
+
+if(!question.trim()) return;  
+setLoading(true); 
+
 const response = await fetch("http://localhost:3000/api/chatbot",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
@@ -30,8 +33,16 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
 const data = await response.json() 
 console.log("Resposta do Backend: ", data)
 
-setResposta(data.resposta)
+setChatHistory(prev=>[
+    ...prev, 
+    {
+        question:question, 
+        answer:data.resposta 
+    }
+]); 
+
 setQuestion(""); 
+setLoading(false); 
 }
 
 function handleCategoryClick(category){
