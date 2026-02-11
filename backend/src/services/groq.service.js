@@ -15,6 +15,8 @@ export async function askGroq(prompt,video,history){
     {role:"assistant",content:item.answer} 
     ]); 
 
+    const limitedHistory = formattedHistory.slice(-5)
+
     const fullPrompt = `Você é um treinador de jiu-jitsu faixa preta e responde questões sobre jiu-jitsu de forma clara e didatica, o aluno está estudando esse video: 
     ${video.title}, ${video.summary}, ${video.applyTips} 
     seu objetivo e tirar todas as dúvidas dele focando nesse contéudo  
@@ -29,13 +31,14 @@ export async function askGroq(prompt,video,history){
                 role:"system", 
                 content:`Você responde questões sobre jiu-jitsu de forma didatica`
             }, 
-            ...formattedHistory, 
+            ...limitedHistory,  
             {
                 role:"user", 
                 content:fullPrompt  
             }
         ],
-        temperature:0.3
+        temperature:0.3,
+        max_completion_tokens:300 
     }); 
     return completion.choices[0].message.content; 
 }
