@@ -31,10 +31,6 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
     video:selectedVideo, 
      })
  }); 
-}catch(error){
-    console.error("O mestre está limpando o tatame, tente novamente em outro momento");  
-}
-
 const data = await response.json();  
 
 if(data.resposta){
@@ -47,8 +43,15 @@ setChatHistory([
 ]); 
 }
 setQuestion(""); 
-setLoading(false); 
+
+}catch(error){
+    console.error("O mestre está limpando o tatame, tente novamente em outro momento");  
 }
+
+setLoading(false); 
+
+}
+
 
 function handleCategoryClick(category){
     setSelectedCategory(category); 
