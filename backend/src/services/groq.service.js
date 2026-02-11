@@ -10,6 +10,11 @@ export async function askGroq(prompt,video){
     apiKey: process.env.GROQ_API_KEY 
     }); 
 
+    const formattedHistory = history.flatMap(item=>[
+    {role:"user",content:item.question}, 
+    {role:"assistant",content:item.answer} 
+    ]); 
+
     const fullPrompt = `Você é um treinador de jiu-jitsu faixa preta e responde questões sobre jiu-jitsu de forma clara e didatica, o aluno está estudando esse video: 
     ${video.title}, ${video.summary}, ${video.applyTips} 
     seu objetivo e tirar todas as dúvidas dele focando nesse contéudo  
@@ -24,7 +29,7 @@ export async function askGroq(prompt,video){
                 role:"system", 
                 content:`Você responde questões sobre jiu-jitsu de forma didatica`
             }, 
-
+            ...formattedHistory, 
             {
                 role:"user", 
                 content:fullPrompt  
