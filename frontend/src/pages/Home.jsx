@@ -27,6 +27,7 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
     headers:{"Content-Type":"application/json"}, 
     body:JSON.stringify({
     prompt:question, 
+    history:chatHistory, 
     video:selectedVideo, 
      })
  }); 
@@ -37,16 +38,14 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
 const data = await response.json();  
 
 if(data.resposta){
-setChatHistory(prev=>[
-    ...prev, 
+setChatHistory([
+    ...chatHistory, 
     {
         question, 
         answer:data.resposta 
     }
 ]); 
 }
-
-
 setQuestion(""); 
 setLoading(false); 
 }
