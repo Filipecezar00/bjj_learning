@@ -26,20 +26,23 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
     body:JSON.stringify({
-    prompt:question
+    prompt:question, 
+    video:selectedVideo, 
      })
  }); 
 
 const data = await response.json() 
-console.log("Resposta do Backend: ", data)
 
+if(data.resposta){
 setChatHistory(prev=>[
     ...prev, 
     {
-        question:question, 
+        question, 
         answer:data.resposta 
     }
 ]); 
+}
+
 
 setQuestion(""); 
 setLoading(false); 
@@ -68,14 +71,14 @@ return(
                     ))}
                 </div>
 
-                <div style={{display:"flex",alignItems:"flex-end"}}>
+             <div style={{display:"flex",alignItems:"flex-end"}}>
                     {selectedCategory&&(
-                       <div>
+                   <div>
                         <h2>Videos de {selectedCategory}</h2> 
                         {videosByCategory[selectedCategory].map((video)=>(
                             <VideoCard key={video.id} title={video.title} level={video.level} onclick={()=>setSelectedVideo(video)}></VideoCard> 
                         ))}
-                       </div>
+                   </div>
                     )}
                         </div>
                 </div>
