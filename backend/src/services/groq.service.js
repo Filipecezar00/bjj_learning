@@ -17,7 +17,7 @@ export async function askGroq(prompt,video,history){
 
     const limitedHistory = formattedHistory.slice(-5)
 
-    const fullPrompt = `Você é um treinador de jiu-jitsu faixa preta e responde questões sobre jiu-jitsu de forma clara e didatica, o aluno está estudando esse video: 
+    const fullPrompt = `Você é um treinador de jiu-jitsu faixa preta e responde questões sobre jiu-jitsu de forma clara, técnica e objetiva, o aluno está estudando esse video: 
     ${video.title}, ${video.summary}, ${video.applyTips} 
     seu objetivo e tirar todas as dúvidas dele focando nesse contéudo  
     
