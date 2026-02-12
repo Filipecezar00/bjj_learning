@@ -87,4 +87,15 @@ if(conversationMemory.recentMessages.length>6){
     conversationMemory.recentMessages = [] 
 }; 
 
+const messages = [
+    {
+        role:"system", 
+        content:"Responda como treinador técnico de jiu-jitsu."
+    }, 
+    {
+        role:"system", 
+        content:`Resumo da conversa até agora: ${conversationMemory.summary}`
+    }, 
+    ...conversationMemory.recentMessages
+]; 
 
