@@ -1,5 +1,6 @@
 import Groq from "groq-sdk"; 
 
+// Função para gerenciar a IA 
 export async function askGroq(prompt,video,history){
     if(!process.env.GROQ_API_KEY){
          console.error("A chave da Api não foi encontrada"); 
@@ -39,6 +40,30 @@ export async function askGroq(prompt,video,history){
         ],
         temperature:0.3,
         max_completion_tokens:300 
+    }); 
+    return completion.choices[0].message.content; 
+}
+
+//  Função do historico de conversas 
+export async function summarizeConversation(history){
+    const groq = new Groq({
+        apiKey:process.env.GROQ_API_KEY
+    }); 
+    const messages = [
+        {
+            role:"system",
+            content:"Resuma a conversa abaixo mantendo os pontos técnicos importantes."
+        }, 
+        {
+            role:"user", 
+            content:JSON.stringify(history) 
+        }
+    ]; 
+    const completion = await groq.chat.completions.create({
+        model:"llama-3.1-8b-instant", 
+        messages, 
+        max_completion_tokens:200,
+        temperature:0.2
     }); 
     return completion.choices[0].message.content; 
 }
