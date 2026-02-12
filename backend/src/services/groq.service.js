@@ -67,3 +67,24 @@ export async function summarizeConversation(history){
     }); 
     return completion.choices[0].message.content; 
 }
+
+let conversationMemory = {
+    summary:"", 
+    recentMessages:[] 
+}; 
+
+conversationMemory.recentMessages.push({
+    role:'user',  
+    content:question 
+}); 
+
+if(conversationMemory.recentMessages.length>6){
+    const newSummary = await summarizeConversation(
+       conversationMemory.recentMessages 
+    ); 
+    conversationMemory.summary += " " + newSummary 
+
+    conversationMemory.recentMessages = [] 
+}; 
+
+
