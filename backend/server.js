@@ -7,7 +7,7 @@ import express from "express";
 import cors from "cors";  
 import chatRoutes  from "./src/routes/chat.routes.js"; 
 import { askGroq } from "./src/services/groq.service.js";
-
+import mongoose from "mongoose";
 
 // Chamando a função
 const app = express(); 
@@ -17,6 +17,10 @@ app.use(cors());
 app.use(express.json()); 
 
 app.use("/api",chatRoutes); 
+
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>console.log("Data Base connected "))
+.catch(err=>console.log(err))
 
 app.get('/',(req,res)=>{
     res.send("Backend funcionando"); 
