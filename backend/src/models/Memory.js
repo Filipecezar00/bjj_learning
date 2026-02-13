@@ -1,21 +1,17 @@
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
 
-const memorySchema = new mongoose.Schema({
-    userId:{
-        type:String, 
-        required:true,
-        unique:true 
-    }, 
+const MemorySchema = new mongoose.Schema({
+    userId:String, 
     summary:{
-        type:String, 
+        type:String,
         default:""
     }, 
     recentMessages:[
         {
-         role:String,
-         content:String 
+            role:String,
+            content:String 
         }
     ]
-},{timestamps:true}); 
+}); 
 
-export default mongoose.model("Memory",memorySchema);
+export default mongoose.model("Memory",MemorySchema); 
