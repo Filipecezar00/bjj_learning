@@ -29,7 +29,7 @@ const response = await fetch("http://localhost:3000/api/chatbot",{
     prompt:question, 
     history:chatHistory, 
     video:selectedVideo, 
-     })
+     }), 
  }); 
 const data = await response.json();  
 
