@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
 const MemorySchema = new mongoose.Schema({
-    userId:String, 
+    userId:{
+        type:String,
+        required:true,
+        unique:true 
+    },
     summary:{
         type:String,
         default:""
@@ -12,6 +16,6 @@ const MemorySchema = new mongoose.Schema({
             content:String 
         }
     ]
-}); 
+},{timestamps:true}); 
 
 export default mongoose.model("Memory",MemorySchema); 
