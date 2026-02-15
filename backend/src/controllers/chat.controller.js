@@ -27,18 +27,32 @@ export async function chat(req,res){
             content:message
         })
 
+        const messages = [
+            {
+                role:"system", 
+                content:"Você responde questões técnicas de jiu-jitsu"
+            },
+            {
+                role:"system",
+                content:`Resumo da conversa: ${memory.summary}`
+            }, 
+            ...memory.recentMessages 
+        ]; 
+
+        const aiResponse = await askGroq(messages); 
+
+        //Salva Resposta 
+          memory.recentMessages.push({
+            role:"assistant", 
+            content:aiResponse
+        }); 
+
+        // Implementação do Resumo 
         if(memory.recentMessages.length>6){
             const newSummary = await summarizeConversation(memory.recentMessages);  
             memory.summary += " " + newSummary; 
             memory.recentMessages = memory.recentMessages.slice(-2); 
         }
-
-        const aiResponse = await askGroq(prompt,video,history); 
-
-        memory.recentMessages.push({
-            role:"assistant", 
-            content:aiResponse
-        }); 
 
         await memory.save(); 
 
