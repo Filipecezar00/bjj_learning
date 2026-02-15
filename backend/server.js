@@ -1,7 +1,7 @@
 // Importações
 import dotenv from "dotenv"; 
 dotenv.config(); 
-console.log("GROQ_API_KEY:",process.env.GROQ_API_KEY); 
+// console.log("GROQ_API_KEY:",process.env.GROQ_API_KEY); 
 
 import express from "express"; 
 import cors from "cors";  
@@ -28,33 +28,35 @@ app.get('/',(req,res)=>{
     res.send("Backend funcionando"); 
 })
 
-app.post("/api/chatbot",async(req,res)=>{
-try{
-    const {prompt,video,history} = req.body; 
+// app.post("/api/chatbot",async(req,res)=>{
+// try{
+//     const {prompt,video,history} = req.body; 
 
-    if(!prompt || !prompt.trim()) {
-        return res.status(400).json({error:"Por favor mande uma Pergunta"}); 
-    }; 
-    if(!video){
-        return res.status(400).json({error:"Video indisponivel para acesso"}); 
-    }
-    const resposta = await askGroq(prompt,video,history);  
-    res.json({resposta}); 
-}
-catch(error){
-    console.error("Erro ao consumir a aplicação", error);  
-    res.status(500).json({error:"Erro no servidor"}); 
-}
-}); 
+//     if(!prompt || !prompt.trim()) {
+//         return res.status(400).json({error:"Por favor mande uma Pergunta"}); 
+//     }; 
+//     if(!video){
+//         return res.status(400).json({error:"Video indisponivel para acesso"}); 
+//     }
+//     const resposta = await askGroq(prompt,video,history);  
+//     res.json({resposta}); 
+// }
+// catch(error){
+//     console.error("Erro ao consumir a aplicação", error);  
+//     res.status(500).json({error:"Erro no servidor"}); 
+// }
+// }); 
 
-app.get("/test-db",async(req,res)=>{
-    const memory = await Memory.create({
-        userId:"teste123",
-        summary:"Teste funcionando",
-        recentMessages:[]
-    });
-    res.json(memory) 
-})
+
+
+// app.get("/test-db",async(req,res)=>{
+//     const memory = await Memory.create({
+//         userId:"teste123",
+//         summary:"Teste funcionando",
+//         recentMessages:[]
+//     });
+//     res.json({memory})
+// })
 
 
 // Chamada do Servidor  
