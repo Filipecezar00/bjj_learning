@@ -22,12 +22,11 @@ async function enviarPergunta(){
 if(!question.trim()) return;  
 setLoading(true); 
 try{
-const response = await fetch("http://localhost:3000/api/chatbot",{
+const response = await fetch("http://localhost:3000/api/chat",{
     method:"POST",
     headers:{"Content-Type":"application/json"}, 
     body:JSON.stringify({
-    prompt:question, 
-    history:chatHistory, 
+    message:question,
     video:selectedVideo, 
      }), 
  }); 
