@@ -53,14 +53,9 @@ export async function chat(req,res){
         }); 
 
         // Implementação do Resumo 
-        if(memory.recentMessages.length>6){
-            const newSummary = await summarizeConversation(memory.recentMessages);  
-            memory.summary += " " + newSummary; 
-            memory.recentMessages = memory.recentMessages.slice(-2); 
-        }
-
+        memory.markModified('recentMessages'); 
         await memory.save(); 
-
+        console.log("Memória salva com sucesso para o usuário:",memory.userId); 
         return res.json({answer:aiResponse}); 
 
     }catch(error){
