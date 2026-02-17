@@ -1,4 +1,4 @@
-import { summarizeConversation,askGroq } from "../services/groq.service.js"; 
+import {askGroq } from "../services/groq.service.js"; 
 import Memory from "../models/Memory.js"; 
 
 async function getOrCreateMemory(userId){
@@ -27,6 +27,11 @@ export async function chat(req,res){
             content:message
         })
 
+        const cleanHistory = memory.recentMessages.map(msg=>({
+            role:msg.role,
+            content:msg.content 
+        })); 
+
         const messages = [
             {
                 role:"system", 
@@ -34,9 +39,9 @@ export async function chat(req,res){
             },
             {
                 role:"system",
-                content:`Resumo da conversa: ${memory.summary}`
+                content:`Resumo da conversa: ${memory.summary} `
             }, 
-            ...memory.recentMessages 
+            ...cleanHistory
         ]; 
 
         const aiResponse = await askGroq(messages); 
