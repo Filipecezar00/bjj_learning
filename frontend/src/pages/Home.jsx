@@ -32,14 +32,15 @@ const response = await fetch("http://localhost:3000/api/chat",{
  }); 
 const data = await response.json();  
 
-if(data.resposta){
+if(data.answer){
 setChatHistory([
     ...chatHistory, 
     {
         question, 
-        answer:data.resposta 
+        answer:data.answer
     }
 ]); 
+setResposta(data.answer); 
 }
 setQuestion(""); 
 
