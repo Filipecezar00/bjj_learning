@@ -13,8 +13,8 @@ return memory;
 
 export async function chat(req,res){  
     try{
-        const {message} = req.body;  
-        const userId = "mock-user"; 
+        const {message} = req.body   
+        const userId = req.user.id 
 
         if(!message || !message.trim()){
             return res.status(400).json({error:"Envie uma Pergunta válida"}); 
