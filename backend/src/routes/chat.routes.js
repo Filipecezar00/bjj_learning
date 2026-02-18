@@ -1,12 +1,13 @@
 // Importações
-import {Router} from "express"; 
+import express from "express"; 
+import { authMiddleware } from "../middlawares/auth.middleware.js";
 import {chat} from "../controllers/chat.controller.js"; 
 
 // variavel da chamada de função
-const router = Router(); 
+const router = express.Router(); 
  
 // Rota para armazenar os dados
-router.post("/chat",chat); 
+router.post("/",authMiddleware,chat); 
 
 // exportando a rota para as demais partes do programa 
 export default router; 
