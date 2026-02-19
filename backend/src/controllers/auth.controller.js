@@ -12,8 +12,11 @@ const registerSchema= z.object({
 export async function register(req,res){
 console.log("DADOS RECEBIDOS NO FRONT:",req.body);  
 try{
-    const {name,email,password} = req.body 
-    
+    const parsed = registerSchema.safeParse(req.body); 
+
+    if(!parsed.success){
+        return res.status(400).json({error:parsed.error.errors});
+    }
 
     const existingUser = await User.findOne({email})
 
