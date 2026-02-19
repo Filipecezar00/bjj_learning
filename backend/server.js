@@ -10,6 +10,7 @@ import mongoose from "mongoose";
 import authRoutes from "./src/routes/auth.routes.js"; 
 import rateLimit from "express-rate-limit"; 
 import { errorMiddleware } from "./src/middlawares/error.middleware.js";
+import 'express-async-errors'; 
 
 // Chamando a função
 const app = express(); 
