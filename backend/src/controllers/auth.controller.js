@@ -1,13 +1,19 @@
 import User from "../models/User.js"; 
 import bcrypt from "bcrypt"; 
 import jwt from "jsonwebtoken"; 
+import { z } from "zod"; 
+
+const registerSchema= z.object({
+    name: z.string().min(2),
+    email:z.string().email(),
+    password: z.string().min(6) 
+}); 
 
 export async function register(req,res){
+console.log("DADOS RECEBIDOS NO FRONT:",req.body);  
 try{
     const {name,email,password} = req.body 
-    if(!name || !email || !password){
-        return res.status(400).json({error:"Preencha todos os Campos"}); 
-    }
+    
 
     const existingUser = await User.findOne({email})
 
