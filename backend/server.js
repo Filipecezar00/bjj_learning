@@ -1,32 +1,35 @@
 // Importações
 import dotenv from "dotenv"; 
 dotenv.config(); 
-// console.log("GROQ_API_KEY:",process.env.GROQ_API_KEY); 
-
+import 'express-async-errors'; 
 import express from "express"; 
 import cors from "cors";  
-import chatRoutes  from "./src/routes/chat.routes.js"; 
+import helmet from "helmet"; 
 import mongoose from "mongoose";
+import chatRoutes  from "./src/routes/chat.routes.js"; 
 import authRoutes from "./src/routes/auth.routes.js"; 
 import rateLimit from "express-rate-limit"; 
 import { errorMiddleware } from "./src/middlawares/error.middleware.js";
-import 'express-async-errors'; 
 
 // Chamando a função
 const app = express(); 
 
 // Middlewares
+app.use(helmet()); 
 app.use(cors()); 
 app.use(express.json()); 
-
-app.use("/api",chatRoutes); 
-app.use("/api/auth",authRoutes); 
 
 const limiter = rateLimit({
     windowMs:15 * 60 * 1000, 
     max:50, 
     message:"Você ja fez muitas requisições, por favor tente em outro momento."
 }); 
+app.use(limiter); 
+
+app.use("/api",chatRoutes); 
+app.use("/api/auth",authRoutes); 
+
+app.use(errorMiddleware); 
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("Data Base connected "))
@@ -37,8 +40,6 @@ app.get('/',(req,res)=>{
     res.send("Backend funcionando"); 
 })
 
-app.use(limiter); 
-app.use(errorMiddleware); 
 
 // Chamada do Servidor  
 app.listen(3000,()=>{
