@@ -4,9 +4,9 @@ import jwt from "jsonwebtoken";
 import { z } from "zod"; 
 
 const registerSchema= z.object({
-    name: z.string().min(2),
-    email:z.string().email(),
-    password: z.string().min(6) 
+    name: z.string().min(2,'Preencha pelo menos dois caracteres'),
+    email:z.string().email("Formato de E-mail inválido"),
+    password: z.string("Preencha pelo menos 6 caracteres").min(6) 
 }); 
 
 export async function register(req,res){
@@ -17,6 +17,8 @@ try{
     if(!parsed.success){
         return res.status(400).json({error:parsed.error.errors});
     }
+
+    const {name,email,password} = parsed.data; 
 
     const existingUser = await User.findOne({email})
 
