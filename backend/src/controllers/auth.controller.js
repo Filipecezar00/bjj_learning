@@ -10,12 +10,10 @@ const registerSchema= z.object({
 }); 
 
 export async function register(req,res){
-console.log("DADOS RECEBIDOS NO FRONT:",req.body);  
-try{
     const parsed = registerSchema.safeParse(req.body); 
 
     if(!parsed.success){
-        return res.status(400).json({error:parsed.error.errors});
+     throw new AppError("Erro ao Enviar dados do registro, por favor tente novamente",400)
     }
 
     const {name,email,password} = parsed.data; 
@@ -23,7 +21,7 @@ try{
     const existingUser = await User.findOne({email})
 
     if(existingUser){
-        return res.status(400).json({error:"Email já cadastrado"}); 
+     throw new AppError("Por favor cadastre um Email válido",400); 
     }
 
     const hashedPassword = await bcrypt.hash(password,10); 
@@ -34,26 +32,23 @@ try{
         password:hashedPassword 
     });
     res.status(201).json({message:"Usuário criado com Sucesso"}); 
-}
-catch(err){
-    res.status(500).json({err:"Erro no Servidor"}); 
-    }
+
+
 }
 
 export async function login(req,res){
-    try{
         const {email,password} = req.body; 
 
         const user = await User.findOne({email});
 
         if(!user){
-            return res.status(400).json({error:"Credenciais inválidas"}); 
+            throw new AppError("Credenciais Inválidas",400); 
         }
 
         const isMatch = await bcrypt.compare(password,user.password); 
 
         if(!isMatch){
-            return res.status(400).json({error:"Credenciais inválidas"}) 
+            throw new AppError("Credenciais Inválidas",400); 
         }
 
         const token = jwt.sign(
@@ -71,7 +66,4 @@ export async function login(req,res){
         }
     }); 
 
-    }catch(error){
-        res.status(500).json({error:"Erro no Servidor"}); 
-    }
 }

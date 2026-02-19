@@ -12,12 +12,11 @@ return memory;
 
 
 export async function chat(req,res){  
-    try{
         const {message} = req.body   
         const userId = req.user.id 
 
         if(!message || !message.trim()){
-            return res.status(400).json({error:"Envie uma Pergunta válida"}); 
+            throw new AppError("É necessario digitar uma mensagem",400) 
         }
 
         let memory = await getOrCreateMemory(userId); 
@@ -55,11 +54,9 @@ export async function chat(req,res){
         // Implementação do Resumo 
         memory.markModified('recentMessages'); 
         await memory.save(); 
+        
         console.log("Memória salva com sucesso para o usuário:",memory.userId); 
         return res.json({answer:aiResponse}); 
-
-    }catch(error){
-        console.error("Erro ao concluir Operação" + error);  
-        return res.status(500).json({error:"Ocorreu um erro de processamento com a inteligência artificial"}); 
-    }
+ 
+    
 }
