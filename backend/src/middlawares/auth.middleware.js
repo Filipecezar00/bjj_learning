@@ -7,13 +7,14 @@ export function authMiddleware(req,res,next){
         return res.status(401).json({error:"Token não fornecido"}); 
     }
     const token = authHeader.split(" ")[1]; 
-
+    console.log("TOKEN EXTRAÍDO:",token); 
     try{
         const decoded = jwt.verify(token,process.env.JWT_SECRET); 
-        req.user = decoded.id;  
+        req.user = decoded;  
         next(); 
 
     }catch(err){
+        console.error("Erro no middleware:",err); 
         res.status(401).json({err:"Token Inválido"}); 
     }
 }
