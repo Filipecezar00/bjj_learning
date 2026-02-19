@@ -22,9 +22,10 @@ async function enviarPergunta(){
 if(!question.trim()) return;  
 setLoading(true); 
 try{
+const token = localStorage.getItem("token")
 const response = await fetch("http://localhost:3000/api/chat",{
     method:"POST",
-    headers:{"Content-Type":"application/json"}, 
+    headers:{"Content-Type":"application/json","Authorization":`Bearer ${token}`}, 
     body:JSON.stringify({
     message:question,
     video:selectedVideo, 
@@ -33,8 +34,8 @@ const response = await fetch("http://localhost:3000/api/chat",{
 const data = await response.json();  
 
 if(data.answer){
-setChatHistory([
-    ...chatHistory, 
+setChatHistory(prev=>[
+...prev, 
     {
         question, 
         answer:data.answer

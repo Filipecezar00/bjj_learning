@@ -7,7 +7,7 @@ import {chat} from "../controllers/chat.controller.js";
 const router = express.Router(); 
  
 // Rota para armazenar os dados
-router.post("/",authMiddleware,chat); 
+router.post("/chat",authMiddleware,chat); 
 
 // exportando a rota para as demais partes do programa 
 export default router; 

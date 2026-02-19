@@ -6,9 +6,8 @@ dotenv.config();
 import express from "express"; 
 import cors from "cors";  
 import chatRoutes  from "./src/routes/chat.routes.js"; 
-import { askGroq } from "./src/services/groq.service.js";
 import mongoose from "mongoose";
-import Memory from "./src/models/Memory.js"
+
 
 // Chamando a função
 const app = express(); 
