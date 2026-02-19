@@ -8,6 +8,7 @@ import cors from "cors";
 import chatRoutes  from "./src/routes/chat.routes.js"; 
 import mongoose from "mongoose";
 import authRoutes from "./src/routes/auth.routes.js"; 
+import rateLimit from "express-rate-limit"; 
 
 // Chamando a função
 const app = express(); 
@@ -18,6 +19,14 @@ app.use(express.json());
 
 app.use("/api",chatRoutes); 
 app.use("/api/auth",authRoutes); 
+
+
+const limiter = rateLimit({
+    windowMs:15 * 60 * 1000, 
+    max:50, 
+    message:"Você ja fez muitas requisições, por favor tente em outro momento."
+}); 
+app.use(limiter) 
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("Data Base connected "))
