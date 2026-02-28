@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Login.css";
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -29,14 +30,15 @@ export function Login() {
   };
   return (
     <div className="login-container">
+      <h2>BEM VINDO AO BJJ LEARNING</h2>
       <form onSubmit={handleLogin} className="error-msg">
-        <h2>BEM VINDO AO BJJ LEARNING</h2>
         {error && <p className="error-msg">{error}</p>}
         <input
           type="email"
           placeholder="Seu E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="inputs"
           required
         />
         <input
@@ -44,6 +46,7 @@ export function Login() {
           placeholder="Sua Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="inputs"
           required
         />
         <button type="submit">Entrar na Plataforma</button>
