@@ -80,6 +80,11 @@ export default function Home() {
           borderRadius: "12px",
           textAlign: "center",
           marginBottom: "40px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          flexWrap: "wrap",
         }}
       >
         <h1
@@ -95,13 +100,6 @@ export default function Home() {
 
         <div
           style={{
-            display: "flex",
-            flexDirection: "row",
-            gap: "100px",
-            alignItems: "center",
-            width: "100%",
-            maxWidth: "1000px",
-            justifyContent: "space-evenly",
             margin: "10px",
             padding: "10px",
           }}
@@ -109,7 +107,7 @@ export default function Home() {
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               gap: "10px",
               minWidth: "200px",
             }}
@@ -123,7 +121,15 @@ export default function Home() {
             ))}
           </div>
 
-          <div style={{ display: "flex", alignItems: "flex-end" }}>
+          <div
+            style={{
+              margin: "0px",
+              padding: "30px",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
             {selectedCategory && (
               <div>
                 <h2>Videos de {selectedCategory}</h2>

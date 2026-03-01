@@ -32,6 +32,7 @@ export function Login() {
     <div className="login-container">
       <h2>BEM VINDO AO BJJ LEARNING</h2>
       <form onSubmit={handleLogin} className="error-msg">
+        <p className="title">Preencha seus Dados de Cadastro</p>
         {error && <p className="error-msg">{error}</p>}
         <input
           type="email"
