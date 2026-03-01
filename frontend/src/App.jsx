@@ -1,7 +1,14 @@
-import Home from "./pages/Home";
-// import { Login } from "./pages/Login";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 function App() {
-  //   return <Login />;
-  return <Home />;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Home />}></Route>
+      </Routes>
+    </Router>
+  );
 }
 export default App;

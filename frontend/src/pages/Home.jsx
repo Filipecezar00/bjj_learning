@@ -5,8 +5,12 @@ import VideoPage from "./VideoPage";
 import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
 
-export default function Home() {
+export function Home() {
   const categories = Object.keys(videosByCategory);
+
+  const [name, setName] = useState(() => {
+    return localStorage.getItem("userName") || "guerreiro";
+  });
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -97,7 +101,9 @@ export default function Home() {
         >
           Estudos de Jiu-jitsu
         </h1>
-
+        <div className="home-container">
+          <p style={{ color: "green" }}>Bem-vindo,{name}!</p>
+        </div>
         <div
           style={{
             margin: "10px",
@@ -108,6 +114,7 @@ export default function Home() {
             style={{
               display: "flex",
               flexDirection: "row",
+              flexWrap: "wrap",
               gap: "10px",
               minWidth: "200px",
             }}
