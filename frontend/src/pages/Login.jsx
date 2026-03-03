@@ -83,19 +83,21 @@ export function Login() {
               required
             />
           )}
-          <span
-            onClick={() => setShowPassword(!showPassword)}
-            style={{
-              position: "absolute",
-              right: "20px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              cursor: "pointer",
-              color: "#ffffff",
-            }}
-          >
-            {showPassword ? <Eye /> : <EyeOff />}
-          </span>
+          {mode !== "forgot" && (
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "20px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+                color: "#ffffff",
+              }}
+            >
+              {showPassword ? <Eye /> : <EyeOff />}
+            </span>
+          )}
         </div>
 
         <button type="submit">
