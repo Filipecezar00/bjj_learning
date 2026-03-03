@@ -4,9 +4,11 @@ import VideoCard from "../components/VideoCard";
 import VideoPage from "./VideoPage";
 import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
   const categories = Object.keys(videosByCategory);
+  const navigate = useNavigate();
 
   const [name, setName] = useState(() => {
     return localStorage.getItem("userName") || "guerreiro";
@@ -36,6 +38,10 @@ export function Home() {
           video: selectedVideo,
         }),
       });
+      if (response.status === 401) {
+        navigate("/login");
+        return;
+      }
       const data = await response.json();
 
       if (data.answer) {
