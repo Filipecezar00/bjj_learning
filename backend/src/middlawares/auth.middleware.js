@@ -1,20 +1,20 @@
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
 
-export function authMiddleware(req,res,next){
-    const authHeader = req.headers.authorization; 
+export function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization;
 
-    if(!authHeader || !authHeader.startsWith("Bearer ")){
-        return res.status(401).json({error:"Token não fornecido"}); 
-    }
-    const token = authHeader.split(" ")[1]; 
-    console.log("TOKEN EXTRAÍDO:",token); 
-    try{
-        const decoded = jwt.verify(token,process.env.JWT_SECRET); 
-        req.user = decoded;  
-        next(); 
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Token não fornecido" });
+  }
 
-    }catch(err){
-        console.error("Erro no middleware:",err); 
-        res.status(401).json({err:"Token Inválido"}); 
-    }
+  const token = authHeader.split(" ")[1];
+  console.log("TOKEN EXTRAÍDO:", token);
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.userId = decoded.id;
+    next();
+  } catch (err) {
+    console.error("Erro no middleware:", err);
+    res.status(401).json({ err: "Token Inválido" });
+  }
 }
