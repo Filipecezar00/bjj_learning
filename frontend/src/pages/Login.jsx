@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import "./Login.css";
 
 export function Login() {
@@ -8,6 +9,7 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -70,16 +72,31 @@ export function Login() {
           className="inputs"
           required
         />
-        {mode !== "forgot" && (
-          <input
-            type="password"
-            placeholder="Sua Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="inputs"
-            required
-          />
-        )}
+        <div className="password-field" style={{ position: "relative" }}>
+          {mode !== "forgot" && (
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Sua Senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="inputs"
+              required
+            />
+          )}
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              cursor: "pointer",
+              color: "#ffffff",
+            }}
+          >
+            {showPassword ? <Eye /> : <EyeOff />}
+          </span>
+        </div>
 
         <button type="submit">
           {mode === "login"
