@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -23,6 +24,7 @@ a:hover {
 }
 
 body {
+  font-family: "Cinzel", sans-serif;
 }
 
 h1 {

@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { Toaster } from "react-hot-toast";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -15,6 +16,7 @@ function PrivateRoute({ children }) {
 function App() {
   return (
     <Router>
+      <Toaster />
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route

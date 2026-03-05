@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import "./Login.css";
+import toast from "react-hot-toast";
 
 export function Login() {
   const [mode, setMode] = useState("login");
@@ -31,13 +32,19 @@ export function Login() {
       const data = await response.json();
       if (response.ok) {
         if (mode === "signup") {
-          alert("OSS!, FAÇA LOGIN PARA INICIAR OS ESTUDOS");
+          toast.success("Conta criada com Sucesso!");
           setMode("login");
         } else {
           localStorage.setItem("token", data.token);
           navigate("/");
         }
       }
+      if (!response.ok) {
+        toast.error("Senha ou Email incorretos");
+      } else {
+        toast.success("Bem vindo de Volta, guerreiro!");
+      }
+      setTimeout(() => navigate("/"), 3000);
     } catch (err) {
       console.error(err);
       setError(err.message);

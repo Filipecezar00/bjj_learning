@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CategoryCard from "../components/CategoryCard";
 import VideoCard from "../components/VideoCard";
 import VideoPage from "./VideoPage";
@@ -125,7 +125,7 @@ export function Home() {
       >
         <h1
           style={{
-            fontFamily: "sans-serif",
+            fontFamily: "math",
             marginBottom: "30px",
             textAlign: "left",
             fontSize: "2rem",
@@ -133,9 +133,6 @@ export function Home() {
         >
           Estudos de Jiu-jitsu
         </h1>
-        <div className="home-container">
-          <p style={{ color: "green" }}>Bem-vindo,{name}!</p>
-        </div>
         <div
           style={{
             margin: "10px",
