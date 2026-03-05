@@ -5,6 +5,7 @@ import VideoPage from "./VideoPage";
 import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
+import { DoorOpen } from "lucide-react";
 
 export function Home() {
   const categories = Object.keys(videosByCategory);
@@ -65,6 +66,11 @@ export function Home() {
   function handleCategoryClick(category) {
     setSelectedCategory(category);
   }
+  const handlelogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+    navigate("/login", { replace: true });
+  };
   if (selectedVideo) {
     return (
       <VideoPage
@@ -84,6 +90,21 @@ export function Home() {
 
   return (
     <Layout>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+          flexWrap: "wrap",
+          flexDirection: "row",
+        }}
+      >
+        <DoorOpen
+          onClick={handlelogout}
+          style={{ cursor: "pointer" }}
+        ></DoorOpen>
+        - Deslogar
+      </div>
       <div
         style={{
           padding: "40px",
@@ -116,6 +137,7 @@ export function Home() {
             padding: "10px",
           }}
         >
+          {" "}
           <div
             style={{
               display: "flex",
@@ -133,7 +155,6 @@ export function Home() {
               ></CategoryCard>
             ))}
           </div>
-
           <div
             style={{
               margin: "0px",
