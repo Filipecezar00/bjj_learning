@@ -67,9 +67,14 @@ export function Home() {
     setSelectedCategory(category);
   }
   const handlelogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    navigate("/login", { replace: true });
+    let resposta = confirm("Tem certeza que deseja sair?");
+    if (resposta == true) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+      navigate("/login", { replace: true });
+    } else {
+      return false;
+    }
   };
   if (selectedVideo) {
     return (
