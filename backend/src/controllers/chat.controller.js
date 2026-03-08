@@ -25,7 +25,7 @@ export async function chat(req, res) {
   const userId = req.userId;
 
   if (!userId) {
-    res.send({ message: "Usuario não identidicado" });
+    return res.status(401).send({ message: "Usuario não identidicado" });
   }
 
   if (!message || !message.trim()) {
