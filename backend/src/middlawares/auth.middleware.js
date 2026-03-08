@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
-import { errorMiddleware } from "./error.middleware.js";
+import { AppError } from "./error.middleware.js";
+import { Schema } from "mongoose";
+
 export function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
@@ -7,18 +9,15 @@ export function authMiddleware(req, res, next) {
     return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  if (!/^Bearer$/i.test(scheme)) {
-    throw new errorMiddleware("Token mal formatado", 401);
-  }
-
   const token = authHeader.split(" ")[1];
-  console.log("TOKEN EXTRAÍDO:", token);
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.id;
+    console.log("Usuario Autenticado:", req.userId);
     next();
   } catch (err) {
-    console.error("Erro no middleware:", err);
+    console.error("Erro no JWT", err.message);
     res.status(401).json({ err: "Token Inválido" });
   }
 }

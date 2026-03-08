@@ -14,6 +14,13 @@ export function Login() {
 
   const navigate = useNavigate();
 
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    toast.custom(
+      "Funcionalidade ainda não disponivel, tente novamente mais para frente.",
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -58,8 +65,8 @@ export function Login() {
           {mode === "login"
             ? "Bem vindo"
             : mode === "signup"
-              ? "Crie sua Conta"
-              : "Recuperar Senha"}
+            ? "Crie sua Conta"
+            : "Recuperar Senha"}
         </h2>
         <p className="title">Preencha seus Dados de Cadastro</p>
         {error && <p className="error-msg">{error}</p>}
@@ -111,8 +118,8 @@ export function Login() {
           {mode === "login"
             ? "Entrar"
             : mode === "signup"
-              ? "Cadastrar"
-              : "Enviar E-mail"}
+            ? "Cadastrar"
+            : "Enviar E-mail"}
         </button>
 
         <div className="auth-links">
@@ -125,7 +132,7 @@ export function Login() {
                 Não Possui conta? <span>Crie Cadastro</span>
               </p>
               <p
-                onClick={() => setMode("forgot")}
+                onClick={handleForgotPassword}
                 style={{ cursor: "pointer", color: "#ffffff" }}
               >
                 Esqueceu a Senha?
