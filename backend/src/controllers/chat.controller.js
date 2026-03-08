@@ -10,6 +10,16 @@ async function getOrCreateMemory(userId) {
   return memory;
 }
 
+export async function getHistory(req, res) {
+  const userId = req.userId;
+
+  const memory = await Memory.findOne({ userId });
+  if (!memory) {
+    return res.json([]);
+  }
+  return res.json(memory.recentMessages);
+}
+
 export async function chat(req, res) {
   const { message } = req.body;
   const userId = req.userId;

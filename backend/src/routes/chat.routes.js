@@ -8,6 +8,7 @@ const router = express.Router();
 
 // Rota para armazenar os dados
 router.post("/chat", authMiddleware, chat);
+router.get("/history", authMiddleware, chat);
 
 // exportando a rota para as demais partes do programa
 export default router;
