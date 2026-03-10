@@ -21,9 +21,13 @@ export async function getHistory(req, res) {
 }
 
 export async function chat(req, res) {
-  const { message } = req.body;
+  const { message, video } = req.body;
   const userId = req.userId;
 
+  console.log("Dados Recebidos: ", { message, video });
+  if (!video || !video.category) {
+    console.error("Erro: O objeto video ou categoria pode estar ausente");
+  }
   if (!userId) {
     return res.status(401).send({ message: "Usuario não identidicado" });
   }
@@ -37,6 +41,7 @@ export async function chat(req, res) {
   memory.recentMessages.push({
     role: "user",
     content: message,
+    category: video.category,
   });
 
   const cleanHistory = memory.recentMessages.map((msg) => ({

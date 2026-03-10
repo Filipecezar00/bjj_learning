@@ -73,13 +73,19 @@ export function Home() {
       const data = await response.json();
 
       if (data.answer) {
-        setChatHistory((prev) => [
-          ...prev,
-          {
-            question,
-            answer: data.answer,
-          },
-        ]);
+        const userMsg = {
+          role: "user",
+          content: question,
+          category: selectedVideo.category,
+        };
+
+        const aiMsg = {
+          role: "assistant",
+          content: data.answer,
+          category: selectedVideo.category,
+        };
+        setChatHistory((prev) => [...prev, userMsg, aiMsg]);
+
         setResposta(data.answer);
       }
       setQuestion("");
@@ -103,13 +109,16 @@ export function Home() {
       return false;
     }
   };
+  console.log(chatHistory);
   if (selectedVideo) {
     return (
       <VideoPage
         video={selectedVideo}
         question={question}
         setQuestion={setQuestion}
-        chatHistory={chatHistory}
+        chatHistory={chatHistory.filter(
+          (msg) => msg.category === selectedVideo,
+        )}
         onBack={() => setSelectedVideo(null)}
         onAsk={() => enviarPergunta()}
         loading={loading}
