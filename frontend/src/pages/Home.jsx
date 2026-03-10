@@ -23,6 +23,33 @@ export function Home() {
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:3000/api/history", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const history = await response.json();
+          const formattedHistory = history
+            .map((msg) => ({
+              question: msg.role === "user" ? msg.content : null,
+              answer: msg.role === "assistant" ? msg.content : null,
+            }))
+            .filter((item) => item.question || item.answer);
+          setChatHistory(formattedHistory);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar Histórico:", error);
+      }
+    };
+    fetchHistory();
+  }, []);
+
   async function enviarPergunta() {
     if (!question.trim()) return;
     setLoading(true);
