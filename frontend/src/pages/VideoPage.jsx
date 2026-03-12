@@ -53,10 +53,13 @@ export default function VideoPage({
       <div style={{ marginTop: "20px" }}>
         {chatHistory &&
           chatHistory.map((msg, index) => (
-            <div key={index}>
+            <div key={msg._id || index}>
               <ChatMessage
                 type={msg.role === "user" ? "user" : "bot"}
-                text={msg.content}
+                text={
+                  msg.content ||
+                  `Erro: Sem conteúdo. Categoria: ${msg.category}`
+                }
               />
             </div>
           ))}

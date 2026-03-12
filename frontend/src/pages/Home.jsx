@@ -35,13 +35,7 @@ export function Home() {
         });
         if (response.ok) {
           const history = await response.json();
-          const formattedHistory = history
-            .map((msg) => ({
-              question: msg.role === "user" ? msg.content : null,
-              answer: msg.role === "assistant" ? msg.content : null,
-            }))
-            .filter((item) => item.question || item.answer);
-          setChatHistory(formattedHistory);
+          setChatHistory(history);
         }
       } catch (error) {
         console.error("Erro ao carregar Histórico:", error);
@@ -63,7 +57,10 @@ export function Home() {
         },
         body: JSON.stringify({
           message: question,
-          video: selectedVideo,
+          video: {
+            ...selectedVideo,
+            category: selectedCategory,
+          },
         }),
       });
       if (response.status === 401) {
@@ -76,16 +73,16 @@ export function Home() {
         const userMsg = {
           role: "user",
           content: question,
-          category: selectedVideo,
+          category: selectedCategory,
         };
 
         const aiMsg = {
           role: "assistant",
           content: data.answer,
-          category: selectedVideo,
+          category: selectedCategory,
         };
-        setChatHistory((prev) => [...prev, userMsg, aiMsg]);
 
+        setChatHistory((prev) => [...prev, userMsg, aiMsg]);
         setResposta(data.answer);
       }
       setQuestion("");

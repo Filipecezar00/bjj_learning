@@ -21,10 +21,14 @@ export async function getHistory(req, res) {
 }
 
 export async function chat(req, res) {
-  const { message, video } = req.body;
+  const { message, video, category } = req.body;
+  console.log("Recebido no servidor:", { message, category: video?.category });
   const userId = req.userId;
 
-  console.log("Dados Recebidos: ", { message, video });
+  const categoriaFinal = category || video?.category;
+
+  console.log("Processando chat para Categoria:", categoriaFinal);
+
   if (!video || !video.category) {
     console.error("Erro: O objeto video ou categoria pode estar ausente");
   }
@@ -38,11 +42,13 @@ export async function chat(req, res) {
 
   let memory = await getOrCreateMemory(userId);
 
-  memory.recentMessages.push({
+  const userMsg = {
     role: "user",
     content: message,
-    category: video.category,
-  });
+    category: categoriaFinal || "Geral",
+  };
+
+  memory.recentMessages.push(userMsg);
 
   const cleanHistory = memory.recentMessages.map((msg) => ({
     role: msg.role,
@@ -63,13 +69,14 @@ export async function chat(req, res) {
 
   const aiResponse = await askGroq(messages);
 
-  //Salva Resposta
-  memory.recentMessages.push({
+  const assistantMsg = {
     role: "assistant",
     content: aiResponse,
-  });
+    category: categoriaFinal || "Geral",
+  };
 
-  // Implementação do Resumo
+  memory.recentMessages.push(assistantMsg);
+
   memory.markModified("recentMessages");
   await memory.save();
 
