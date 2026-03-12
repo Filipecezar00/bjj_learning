@@ -51,12 +51,15 @@ export default function VideoPage({
         {loading ? "Pensando" : "Perguntar"}
       </button>
       <div style={{ marginTop: "20px" }}>
-        {chatHistory.map((item, index) => (
-          <div key={index}>
-            <ChatMessage type="user" text={item.question} />
-            <ChatMessage type="bot" text={item.answer} />
-          </div>
-        ))}
+        {chatHistory &&
+          chatHistory.map((msg, index) => (
+            <div key={index}>
+              <ChatMessage
+                type={msg.role === "user" ? "user" : "bot"}
+                text={msg.content}
+              />
+            </div>
+          ))}
 
         {loading && (
           <p style={{ fontStyle: "normal", color: "#ffff" }}>

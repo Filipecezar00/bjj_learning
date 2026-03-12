@@ -76,13 +76,13 @@ export function Home() {
         const userMsg = {
           role: "user",
           content: question,
-          category: selectedVideo.category,
+          category: selectedVideo,
         };
 
         const aiMsg = {
           role: "assistant",
           content: data.answer,
-          category: selectedVideo.category,
+          category: selectedVideo,
         };
         setChatHistory((prev) => [...prev, userMsg, aiMsg]);
 
@@ -116,9 +116,7 @@ export function Home() {
         video={selectedVideo}
         question={question}
         setQuestion={setQuestion}
-        chatHistory={chatHistory.filter(
-          (msg) => msg.category === selectedVideo,
-        )}
+        chatHistory={chatHistory}
         onBack={() => setSelectedVideo(null)}
         onAsk={() => enviarPergunta()}
         loading={loading}
