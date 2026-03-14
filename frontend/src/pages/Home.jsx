@@ -108,12 +108,15 @@ export function Home() {
   };
   console.log(chatHistory);
   if (selectedVideo) {
+    const historicoFiltrado = chatHistory.filter(
+      (msg) => msg.category === selectedCategory,
+    );
     return (
       <VideoPage
         video={selectedVideo}
         question={question}
         setQuestion={setQuestion}
-        chatHistory={chatHistory}
+        chatHistory={historicoFiltrado}
         onBack={() => setSelectedVideo(null)}
         onAsk={() => enviarPergunta()}
         loading={loading}
