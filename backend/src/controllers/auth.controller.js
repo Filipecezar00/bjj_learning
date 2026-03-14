@@ -53,6 +53,27 @@ export async function register(req, res) {
   res.status(201).json({ message: "Usuário criado com Sucesso" });
 }
 
+export async function refresh(req, res) {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) return res.status(401).json("Refresh Token não enviado");
+
+  const user = await User.findOne({ refreshToken });
+  if (!user) return res.status(403).json("Refresh Token inválido");
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err) return res.status(403).json("Refresh Token expirado");
+
+    const newAccessToken = jwt.sign(
+      { id: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" },
+    );
+
+    res.json({ accessToken: newAccessToken });
+  });
+}
+
 export async function login(req, res) {
   const { email, password } = req.body;
 
