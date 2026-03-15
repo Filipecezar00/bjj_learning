@@ -75,41 +75,48 @@ export async function refresh(req, res) {
 }
 
 export async function login(req, res) {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-  const { accessToken, refreshToken } = generateTokens(user);
+    if (!process.env.ACCESS_TOKEN_SECRET || !process.env.REFRESH_TOKEN_SECRET) {
+      console.error("ERRO: Variáveis de Ambiente não carregadas!");
+      return res.status(500).json({ message: "Erro Interno no Servidor" });
+    }
 
-  user.refreshToken = refreshToken;
-  await user.save();
+    if (!user) {
+      throw new AppError("Credenciais Inválidas", 400);
+    }
 
-  res.json({
-    accessToken,
-    refreshToken,
-    user: { name: user.name, id: user._id },
-  });
+    const isMatch = await bcrypt.compare(password, user.password);
 
-  if (!user) {
-    throw new AppError("Credenciais Inválidas", 400);
+    if (!isMatch) {
+      throw new AppError("Credenciais Inválidas", 400);
+    }
+
+    const accessToken = jwt.sign(
+      { id: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.JWT_EXPIRATION || "15m" },
+    );
+
+    const refreshToken = jwt.sign(
+      { id: user._id },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: process.env.REFRESH_JWT_EXPIRATION || "7d" },
+    );
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    return res.json({
+      accessToken,
+      refreshToken,
+      user: { name: user.name, id: user._id },
+    });
+  } catch (e) {
+    console.error("Erro no JWT", error.message);
+    return res.status(500).json({ message: "Erro ao processar login" });
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch) {
-    throw new AppError("Credenciais Inválidas", 400);
-  }
-
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
-
-  res.json({
-    token,
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-    },
-  });
 }
