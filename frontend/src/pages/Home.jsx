@@ -6,6 +6,7 @@ import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { DoorOpen } from "lucide-react";
+import api from "../services/api";
 
 export function Home() {
   const categories = Object.keys(videosByCategory);
@@ -48,26 +49,13 @@ export function Home() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3000/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          message: question,
-          video: {
-            ...selectedVideo,
-            category: selectedCategory,
-          },
-        }),
+      const response = await api.post("/chat", {
+        message: question,
+        category: selectedCategory,
+        video: selectedVideo,
       });
-      if (response.status === 401) {
-        navigate("/login");
-        return;
-      }
-      const data = await response.json();
+
+      const data = response.data;
 
       if (data.answer) {
         const userMsg = {
@@ -89,7 +77,6 @@ export function Home() {
     } catch (error) {
       console.error("Erro interno: " + error);
     }
-
     setLoading(false);
   }
 
