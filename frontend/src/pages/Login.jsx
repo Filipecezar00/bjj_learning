@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import "./Login.css";
 import toast from "react-hot-toast";
+import api from "../services/api";
 
 export function Login() {
   const [mode, setMode] = useState("login");
@@ -25,38 +26,34 @@ export function Login() {
     e.preventDefault();
     setError("");
 
-    const endpoint =
-      mode === "login" ? "/api/auth/login" : "/api/auth/register";
+    const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
     const payload =
       mode === "login" ? { email, password } : { name, email, password };
 
     try {
-      const response = await fetch(`http://localhost:3000${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        if (mode === "signup") {
-          toast.success("Conta criada com Sucesso!");
-          setMode("login");
-        } else {
-          localStorage.setItem("token", data.token);
-          navigate("/");
-        }
-      }
-      if (!response.ok) {
-        toast.error("Senha ou Email incorretos");
+      const response = await api.post("/login", endpoint, payload);
+      const { accessToken, refreshToken, user } = response.data;
+
+      localStorage.setItem("token", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      if (user?.name) localStorage.setItem("userName", user.name);
+
+      if (mode === "signup") {
+        toast.success("Conta criada com Sucesso!");
+        setMode("login");
       } else {
-        toast.success("Bem vindo de Volta, guerreiro!");
+        toast.success("Bem vindo de Volta, Guerreiro!");
+        navigate("/home");
       }
-      setTimeout(() => navigate("/"), 3000);
     } catch (err) {
-      console.error(err);
+      console.error("Erro na autenticação:", err);
+      const errorMessage =
+        err.response?.data?.message || "E-mail ou Senha Incorretos";
       setError(err.message);
+      toast.error(errorMessage);
     }
   };
+
   return (
     <div className="login-container">
       <h2>BEM VINDO AO BJJ LEARNING</h2>

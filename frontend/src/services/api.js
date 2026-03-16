@@ -1,13 +1,43 @@
-const API_URL = "http://localhost:3000"; 
+import axios from "axios";
+const API_URL = "http://localhost:3000/api";
 
-export async function askChat(question,video){
-    const response = await fetch(`${API_URL}/chat`,{
-    method:'POST',
-    headers:{"Cotent-Type":"application/json"},
-    body:JSON.stringify({question,video}) 
-    })
-    if(!response.ok){
-        throw new error ("Erro na API")
+const api = axios.create({
+  baseURL: API_URL,
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
     }
-    return response.json() 
-}
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      const res = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
+
+      if (res.status === 200) {
+        localStorage.setItem("token", res.data.accessToken);
+        api.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${res.data.accessToken}`;
+        return api(originalRequest);
+      }
+    } catch (refreshError) {
+      localStorage.clear();
+      window.location.href = "/login";
+      return Promise.reject(refreshError);
+    }
+    return Promise.reject(error);
+  },
+);
+
+export default api;
