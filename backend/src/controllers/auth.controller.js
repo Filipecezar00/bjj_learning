@@ -29,7 +29,7 @@ export async function register(req, res) {
   const parsed = registerSchema.safeParse(req.body);
 
   if (!parsed.success) {
-    throw new AppError(
+    throw new Error(
       "Erro ao Enviar dados do registro, por favor tente novamente",
       400,
     );
@@ -40,7 +40,7 @@ export async function register(req, res) {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    throw new AppError("Por favor cadastre um Email válido", 400);
+    throw new Error("Por favor cadastre um Email válido", 400);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -86,13 +86,13 @@ export async function login(req, res) {
     }
 
     if (!user) {
-      throw new AppError("Credenciais Inválidas", 400);
+      throw new Error("Credenciais Inválidas", 400);
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      throw new AppError("Credenciais Inválidas", 400);
+      throw new Error("Credenciais Inválidas", 400);
     }
 
     const accessToken = jwt.sign(
@@ -116,7 +116,7 @@ export async function login(req, res) {
       user: { name: user.name, id: user._id },
     });
   } catch (e) {
-    console.error("Erro no JWT", error.message);
+    console.error("Erro no JWT", e.message);
     return res.status(500).json({ message: "Erro ao processar login" });
   }
 }

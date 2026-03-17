@@ -26,12 +26,19 @@ export function Login() {
     e.preventDefault();
     setError("");
 
-    const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
+    console.log("Iniciando tentativa de:", mode);
+
+    const endpoint =
+      mode === "login" ? "/api/auth/login" : "/api/auth/register";
     const payload =
       mode === "login" ? { email, password } : { name, email, password };
 
     try {
-      const response = await api.post("/login", endpoint, payload);
+      console.log("Chamando API em:", endpoint, "Com dados:", payload);
+      const response = await api.post(endpoint, payload);
+
+      console.log("Resposta recebida com sucesso:", response.data);
+
       const { accessToken, refreshToken, user } = response.data;
 
       localStorage.setItem("token", accessToken);
@@ -46,11 +53,10 @@ export function Login() {
         navigate("/home");
       }
     } catch (err) {
-      console.error("Erro na autenticação:", err);
-      const errorMessage =
-        err.response?.data?.message || "E-mail ou Senha Incorretos";
+      console.error("--- OBJETO DE ERRO COMPLETO ---");
+      console.dir(err);
       setError(err.message);
-      toast.error(errorMessage);
+      toast.error("Erro: " + err.message);
     }
   };
 
