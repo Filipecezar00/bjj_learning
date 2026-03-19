@@ -18,38 +18,31 @@ export function Home() {
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
-
+  const [videos, setVideos] = useState([]);
   const [chatHistory, setChatHistory] = useState([]);
   const [question, setQuestion] = useState("");
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const fetchHistory = async () => {
+    async function carregarDados() {
       try {
-        const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3000/api/history", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (response.ok) {
-          const history = await response.json();
-          setChatHistory(history);
-        }
+        const response = await api.get("/videos");
+
+        setVideos(response.data);
       } catch (error) {
-        console.error("Erro ao carregar Histórico:", error);
+        console.log("Erro ao Carregar Home:", error);
       }
-    };
-    fetchHistory();
+    }
+    carregarDados();
   }, []);
 
   async function enviarPergunta() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      const response = await api.post("/chat", {
+      console.log("Token enviado:", localStorage.getItem("token"));
+      const response = await api.post("/api/chat", {
         message: question,
         category: selectedCategory,
         video: selectedVideo,
@@ -113,7 +106,6 @@ export function Home() {
   }
 
   // Função com elementos e interface do Usuario
-
   return (
     <Layout>
       <div

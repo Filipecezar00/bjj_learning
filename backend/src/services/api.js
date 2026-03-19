@@ -4,13 +4,22 @@ const api = axios.create({
   baseURL: "http://localhost:3000",
 });
 
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    console.log("DEBUG API - Token encontrado no Storage:", token);
+
+    if (token && token !== "") {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      console.warn("AVISO: Nenhum token encontrado para essa requisição!");
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  },
+);
 
 api.interceptors.response.use(
   (response) => response,
