@@ -27,11 +27,11 @@ export function Home() {
   useEffect(() => {
     async function carregarDados() {
       try {
-        const response = await api.get("/videos");
+        const response = await api.get("/home");
 
         setVideos(response.data);
       } catch (error) {
-        console.log("Erro ao Carregar Home:", error);
+        console.log("Erro ao Carregar Home:", error.response?.status);
       }
     }
     carregarDados();
@@ -41,7 +41,6 @@ export function Home() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      console.log("Token enviado:", localStorage.getItem("token"));
       const response = await api.post("/api/chat", {
         message: question,
         category: selectedCategory,
@@ -69,8 +68,9 @@ export function Home() {
       setQuestion("");
     } catch (error) {
       console.error("Erro interno: " + error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   function handleCategoryClick(category) {
@@ -78,9 +78,13 @@ export function Home() {
   }
   const handlelogout = () => {
     let resposta = confirm("Tem certeza que deseja sair?");
+
     if (resposta == true) {
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
+      localStorage.removeItem("refreshToken");
+      delete api.defaults.headers.common["Authorization"];
+
       navigate("/login", { replace: true });
     } else {
       return false;

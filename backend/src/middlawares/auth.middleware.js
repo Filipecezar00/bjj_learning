@@ -1,6 +1,4 @@
 import jwt from "jsonwebtoken";
-import { AppError } from "./error.middleware.js";
-import { Schema } from "mongoose";
 
 export function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -9,15 +7,35 @@ export function authMiddleware(req, res, next) {
     return res.status(401).json({ error: "Token não fornecido" });
   }
 
-  const token = authHeader.split(" ")[1];
+  const parts = authHeader.split(" ");
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id;
-    console.log("Usuario Autenticado:", req.userId);
-    next();
-  } catch (err) {
-    console.error("Erro no JWT", err.message);
-    res.status(401).json({ err: "Token Inválido" });
+  if (parts.length !== 2) {
+    return res.status(401).json({ message: "Erro no Formato do token" });
   }
+
+  const [scheme, token] = parts;
+
+  if (!/^Bearer$/i.test(scheme)) {
+    return res
+      .status(401)
+      .json({ message: "Token malformatado: esquema inválido" });
+  }
+
+  const decoded = jwt.verify(
+    token,
+    process.env.ACCESS_TOKEN_SECRET,
+    (err, decoded) => {
+      if (err) {
+        console.error("Erro na verificação Jwt", err.name);
+
+        const message =
+          err.name === "TokenExpiredError"
+            ? "Token expirado"
+            : "Token inválido";
+        return res.status(401).json({ message });
+      }
+      req.userId = decoded.id;
+      return next();
+    },
+  );
 }
