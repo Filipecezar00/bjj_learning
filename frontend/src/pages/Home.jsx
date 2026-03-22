@@ -6,7 +6,7 @@ import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { DoorOpen } from "lucide-react";
-import api from "../services/api";
+import api from "../services/api.js";
 
 export function Home() {
   const categories = Object.keys(videosByCategory);
@@ -23,19 +23,6 @@ export function Home() {
   const [question, setQuestion] = useState("");
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    async function carregarDados() {
-      try {
-        const response = await api.get("/home");
-
-        setVideos(response.data);
-      } catch (error) {
-        console.log("Erro ao Carregar Home:", error.response?.status);
-      }
-    }
-    carregarDados();
-  }, []);
 
   async function enviarPergunta() {
     if (!question.trim()) return;
