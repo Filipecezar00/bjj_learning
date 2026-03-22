@@ -28,7 +28,7 @@ export function Home() {
     if (!question.trim()) return;
     setLoading(true);
     try {
-      const response = await api.post("/api/chat", {
+      const response = await api.post("/chat", {
         message: question,
         category: selectedCategory,
         video: selectedVideo,

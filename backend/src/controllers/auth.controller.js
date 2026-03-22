@@ -13,7 +13,7 @@ const generateTokens = (user) => {
   const accessToken = jwt.sign(
     { id: user._id },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "15m" },
+    { expiresIn: "24h" },
   );
 
   const refreshToken = jwt.sign(
@@ -67,7 +67,7 @@ export async function refresh(req, res) {
     const newAccessToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" },
+      { expiresIn: "1d" },
     );
 
     res.json({ accessToken: newAccessToken });
@@ -98,7 +98,7 @@ export async function login(req, res) {
     const accessToken = jwt.sign(
       { id: user._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: process.env.JWT_EXPIRATION || "15m" },
+      { expiresIn: process.env.JWT_EXPIRATION || "1d" },
     );
 
     const refreshToken = jwt.sign(

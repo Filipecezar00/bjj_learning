@@ -28,8 +28,7 @@ export function Login() {
 
     console.log("Iniciando tentativa de:", mode);
 
-    const endpoint =
-      mode === "login" ? "/api/auth/login" : "/api/auth/register";
+    const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
     const payload =
       mode === "login" ? { email, password } : { name, email, password };
 
