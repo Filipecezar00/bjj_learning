@@ -26,6 +26,28 @@ export function Home() {
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    async function fetchVideosAndCategories() {
+      try {
+        const response = await api.get("/videos");
+        setVideos(response.data);
+
+        const uniqueCategories = [
+          ...new Set(response.data.map((video) => video.category)),
+        ];
+        setCategories(uniqueCategories);
+
+        if (uniqueCategories.length > 0) {
+          setSelectedCategory(uniqueCategories[0]);
+        }
+      } catch (error) {
+        console.error("Erro ao carregar videos/categories:", error);
+        toast.error("Não foi possivel carregar os videos.");
+      }
+    }
+    fetchVideosAndCategories();
+  }, []);
+
   async function enviarPergunta() {
     if (!question.trim()) return;
     setLoading(true);
