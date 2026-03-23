@@ -16,9 +16,11 @@ export function Home() {
     return localStorage.getItem("userName") || "guerreiro";
   });
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedVideo, setSelectedVideo] = useState("");
   const [videos, setVideos] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const [chatHistory, setChatHistory] = useState([]);
   const [question, setQuestion] = useState("");
   const [resposta, setResposta] = useState("");
