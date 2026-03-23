@@ -48,6 +48,10 @@ export function Home() {
     fetchVideosAndCategories();
   }, []);
 
+  const handleVideoSelect = (videoUrl) => {
+    setSelectedVideo(videoUrl);
+  };
+
   async function enviarPergunta() {
     if (!question.trim()) return;
     setLoading(true);
