@@ -10,6 +10,7 @@ import chatRoutes from "./src/routes/chat.routes.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import rateLimit from "express-rate-limit";
 import { errorMiddleware } from "./src/middlawares/error.middleware.js";
+import videoRoutes from "./src/routes/video.routes.js";
 
 // Chamando a função
 const app = express();
@@ -36,6 +37,7 @@ app.use(limiter);
 
 app.use("/api", chatRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/videos", videoRoutes);
 
 app.use(errorMiddleware);
 

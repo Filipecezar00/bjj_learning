@@ -7,6 +7,7 @@ import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { DoorOpen } from "lucide-react";
 import api from "../services/api.js";
+import toast from "react-hot-toast";
 
 export function Home() {
   const categories = Object.keys(videosByCategory);
@@ -19,7 +20,7 @@ export function Home() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedVideo, setSelectedVideo] = useState("");
   const [videos, setVideos] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [Categories, setCategories] = useState([]);
 
   const [chatHistory, setChatHistory] = useState([]);
   const [question, setQuestion] = useState("");

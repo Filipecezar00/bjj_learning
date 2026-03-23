@@ -7,7 +7,7 @@ import { authMiddleware } from "../middlawares/auth.middleware.js";
 
 const router = Router();
 
-router.get("/videos", authMiddleware, getVideos);
-router.get("/videos/:category", authMiddleware, getVideosByCategory);
+router.get("/", getVideos);
+router.get("/category/:category", getVideosByCategory);
 
 export default router;
