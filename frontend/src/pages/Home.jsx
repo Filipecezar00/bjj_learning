@@ -59,7 +59,7 @@ export function Home() {
       const response = await api.post("/chat", {
         message: question,
         category: selectedCategory,
-        video: selectedVideo,
+        videoUrl: selectedVideo,
       });
 
       const data = response.data;
