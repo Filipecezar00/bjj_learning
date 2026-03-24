@@ -26,19 +26,19 @@ export default function VideoPage({
       }}
     >
       <h1>{video.title}</h1>
-      <p>Nível: {video.level}</p>
-      <p>
-        <strong>Resumo do video: </strong>
-        {video.summary}
-      </p>
-      <ul>
-        <p>Quando aplicar:</p>
-        {video.applyTips.map((tip, index) => (
-          <li key={index}>{tip}</li>
-        ))}
-      </ul>
-      <br />
-      Video do Youtube <br />
+      {video.url && (
+        <iframe
+          width="560"
+          height="315"
+          src={`https://www.youtube.com/embed/${video.url.split("v=")[1]}`}
+          title="Youtube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{ borderRadius: "8px", margin: "20px 0" }}
+        ></iframe>
+      )}
+
       <h3>Chat bot treinador</h3>
       <input
         type="text"

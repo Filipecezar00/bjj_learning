@@ -18,7 +18,7 @@ export function Home() {
   });
 
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedVideo, setSelectedVideo] = useState("");
+  const [selectedVideo, setSelectedVideo] = useState(null);
   const [videos, setVideos] = useState([]);
   const [Categories, setCategories] = useState([]);
 
@@ -49,8 +49,14 @@ export function Home() {
     fetchVideosAndCategories();
   }, []);
 
-  const handleVideoSelect = (videoUrl) => {
-    setSelectedVideo(videoUrl);
+  const handleVideoSelect = (videoObject) => {
+    console.log("Video Selecionado:", videoObject);
+    setSelectedVideo(videoObject);
+  };
+
+  const getEmbedUrl = (url) => {
+    const videoId = url.split("v=")[1];
+    return `https://www.youtube.com/embed/${videoId}`;
   };
 
   async function enviarPergunta() {
@@ -125,7 +131,6 @@ export function Home() {
     );
   }
 
-  // Função com elementos e interface do Usuario
   return (
     <Layout>
       <div
@@ -201,15 +206,25 @@ export function Home() {
           >
             {selectedCategory && (
               <div>
-                <h2>Videos de {selectedCategory}</h2>
-                {videosByCategory[selectedCategory].map((video) => (
-                  <VideoCard
-                    key={video.id}
-                    title={video.title}
-                    level={video.level}
-                    onclick={() => setSelectedVideo(video)}
-                  ></VideoCard>
-                ))}
+                <h2>Vídeos de {selectedCategory}</h2>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
+                    gap: "20px",
+                  }}
+                >
+                  {videos
+                    .filter((v) => v.category === selectedCategory)
+                    .map((video) => (
+                      <VideoCard
+                        key={video._id}
+                        title={video.title}
+                        level={video.level}
+                        onclick={() => handleVideoSelect(video)}
+                      />
+                    ))}
+                </div>
               </div>
             )}
           </div>
