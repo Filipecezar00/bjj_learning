@@ -24,6 +24,7 @@ export default function VideoPage({
         flexDirection: "column",
         alignItems: "center",
       }}
+      onClick={onclick}
     >
       <h1>{video.title}</h1>
       {video.url && (

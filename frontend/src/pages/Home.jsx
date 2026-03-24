@@ -10,7 +10,6 @@ import api from "../services/api.js";
 import toast from "react-hot-toast";
 
 export function Home() {
-  const categories = Object.keys(videosByCategory);
   const navigate = useNavigate();
 
   const [name, setName] = useState(() => {
@@ -187,7 +186,7 @@ export function Home() {
               minWidth: "200px",
             }}
           >
-            {categories.map((cat) => (
+            {Categories.map((cat) => (
               <CategoryCard
                 key={cat}
                 name={cat}
