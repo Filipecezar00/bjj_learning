@@ -118,9 +118,6 @@ export function Home() {
     }
   }
 
-  function handleCategoryClick(category) {
-    setSelectedCategory(category);
-  }
   const handlelogout = () => {
     let resposta = confirm("Tem certeza que deseja sair?");
 
@@ -265,9 +262,7 @@ export function Home() {
                         <h3 style={{ marginTop: "10px", fontSize: "1.1rem" }}>
                           {video.title}
                         </h3>
-                        <p style={{ color: "#666", fontSize: "0.9rem" }}>
-                          Nível: {video.level}
-                        </p>
+                        <p style={{ color: "#666", fontSize: "0.9rem" }}></p>
 
                         <button onClick={() => handleVideoSelect(video)}>
                           Estudar Video com Treinador
