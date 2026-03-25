@@ -72,9 +72,22 @@ export function Home() {
   async function enviarPergunta() {
     if (!question.trim()) return;
     setLoading(true);
+
+    const contextoPrompt = `
+      Você é um mestre de Jiu-jitsu faixa Preta especializado em ${
+        selectedVideo.category
+      },
+      O aluno está assistindo ao vídeo : "${selectedVideo.title}".
+      Resumo da técnica: ${selectedVideo.summary}.
+      Dicas de aplicação:${selectedVideo.applyTips.join(", ")}.
+
+      Responda á duvida do aluno de forma técnica, motivadora e focada com detalhes extremos dessa categoria
+      Dúvida do aluno: ${question}
+    `;
+
     try {
       const response = await api.post("/chat", {
-        message: question,
+        message: contextoPrompt,
         category: selectedCategory,
         videoUrl: selectedVideo,
       });

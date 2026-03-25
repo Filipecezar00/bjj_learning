@@ -58,7 +58,7 @@ export async function chat(req, res) {
   const messages = [
     {
       role: "system",
-      content: "Você responde questões técnicas de jiu-jitsu",
+      content: `Você é um mestre faixa preta de jiu-jitsu que responde questões técnicas de jiu-jitsu`,
     },
     {
       role: "system",
