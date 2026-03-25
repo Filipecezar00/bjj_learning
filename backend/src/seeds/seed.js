@@ -25,6 +25,27 @@ const videos = [
     description: "Defesa básica contra estrangulamentos",
     level: "Iniciante",
   },
+  {
+    title: "Double leg para iniciantes",
+    url: "https://youtu.be/N5A82-b_lOI?si=iUJI4L3ZeD-fT-AR",
+    category: "Quedas",
+    description: "Entrada de Double Leg para iniciantes",
+    level: "Iniciante",
+  },
+  {
+    title: "Drills para iniciantes",
+    url: "https://youtu.be/pcgo4QnByVk?si=7bOxdltcVCLDf_nm",
+    category: "Drills",
+    description: "Drill para iniciantes no jiu-jitsu",
+    level: "Iniciante",
+  },
+  {
+    title: "Passagem toureando",
+    url: "https://youtu.be/k_rBA6wQIUY?si=yiDjULsIl_t4jQg4",
+    category: "Passagem",
+    description: "Como fazer a passagem toureando de maneira eficaz",
+    level: "Iniciante",
+  },
 ];
 
 const seedVideos = async () => {

@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import CategoryCard from "../components/CategoryCard";
 import VideoCard from "../components/VideoCard";
 import VideoPage from "./VideoPage";
-import { videosByCategory } from "../data/videos";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
 import { DoorOpen } from "lucide-react";
@@ -11,10 +10,6 @@ import toast from "react-hot-toast";
 
 export function Home() {
   const navigate = useNavigate();
-
-  const [name, setName] = useState(() => {
-    return localStorage.getItem("userName") || "guerreiro";
-  });
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedVideo, setSelectedVideo] = useState(null);
