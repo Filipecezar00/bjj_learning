@@ -190,7 +190,8 @@ export function Home() {
               <CategoryCard
                 key={cat}
                 name={cat}
-                onclick={() => handleCategoryClick(cat)}
+                active={selectedCategory === cat}
+                onclick={() => setSelectedCategory(cat)}
               ></CategoryCard>
             ))}
           </div>
@@ -205,7 +206,10 @@ export function Home() {
           >
             {selectedCategory && (
               <div>
-                <h2>Vídeos de {selectedCategory}</h2>
+                <h2 style={{ textAlign: "left", marginBottom: "20px" }}>
+                  Técnicas de {selectedCategory}
+                </h2>
+
                 <div
                   style={{
                     display: "grid",
@@ -216,12 +220,46 @@ export function Home() {
                   {videos
                     .filter((v) => v.category === selectedCategory)
                     .map((video) => (
-                      <VideoCard
-                        key={video._id}
-                        title={video.title}
-                        level={video.level}
-                        onclick={() => handleVideoSelect(video)}
-                      />
+                      <div key={video._id} style={{ textAlign: "left" }}>
+                        <div
+                          style={{
+                            borderRadius: "12px",
+                            overflow: "hidden",
+                            backgroundColor: "#000",
+                          }}
+                        >
+                          <iframe
+                            width="100%"
+                            height="200"
+                            src={getEmbedUrl(video.url)}
+                            title={video.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                          ></iframe>
+                        </div>
+                        <h3 style={{ marginTop: "10px", fontSize: "1.1rem" }}>
+                          {video.title}
+                        </h3>
+                        <p style={{ color: "#666", fontSize: "0.9rem" }}>
+                          Nível: ${video.level}
+                        </p>
+
+                        <button
+                          onClick={() => handleVideoSelect(video)}
+                          style={{
+                            marginTop: "10px",
+                            padding: "8px 16px",
+                            backgroundColor: "#fff",
+                            color: "#242424",
+                            border: "none",
+                            borderRadius: "6px",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Estudar Video com Treinador
+                        </button>
+                      </div>
                     ))}
                 </div>
               </div>
