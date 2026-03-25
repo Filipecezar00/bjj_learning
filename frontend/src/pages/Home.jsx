@@ -54,8 +54,24 @@ export function Home() {
   };
 
   const getEmbedUrl = (url) => {
-    const videoId = url.split("v=")[1];
-    return `https://www.youtube.com/embed/${videoId}`;
+    if (!url) return "";
+    try {
+      let videoId = "";
+
+      if (url.includes("v=")) {
+        videoId = url.split("v=")[1].split("&")[0];
+      } else if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1].split("?")[0];
+      } else if (url.includes("embed/")) {
+        return url;
+      } else {
+        videoId = url.split("/").pop();
+      }
+      return `https://www.youtube.com/embed/${videoId}`;
+    } catch (error) {
+      console.error("Erro ao formatar URL do vídeo:", error);
+      return "";
+    }
   };
 
   async function enviarPergunta() {
@@ -242,21 +258,10 @@ export function Home() {
                           {video.title}
                         </h3>
                         <p style={{ color: "#666", fontSize: "0.9rem" }}>
-                          Nível: ${video.level}
+                          Nível: {video.level}
                         </p>
 
-                        <button
-                          onClick={() => handleVideoSelect(video)}
-                          style={{
-                            marginTop: "10px",
-                            padding: "8px 16px",
-                            backgroundColor: "#fff",
-                            color: "#242424",
-                            border: "none",
-                            borderRadius: "6px",
-                            cursor: "pointer",
-                          }}
-                        >
+                        <button onClick={() => handleVideoSelect(video)}>
                           Estudar Video com Treinador
                         </button>
                       </div>

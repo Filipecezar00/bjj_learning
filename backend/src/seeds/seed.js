@@ -9,18 +9,21 @@ const videos = [
     url: "https://youtu.be/GevMAUs3JDE?si=1IwLM9bWjG51O18y",
     category: "Raspagens",
     description: "Técnica de raspagens partindo da guarda aranha",
+    level: "Intermediario",
   },
   {
     title: "Arm-lock da guarda aranha",
     url: "https://youtu.be/ptGUSziGkL4?si=U_4A31We4DRxCFh0",
     category: "Finalizações",
     description: "Como finalizar com armlock da guarda aranha",
+    level: "Intermediario",
   },
   {
     title: "Defesa do estrangulamento",
     url: "https://youtu.be/31aOSlMgPHk?si=_RREP6Puqv-CvUCJ",
     category: "Defesas",
     description: "Defesa básica contra estrangulamentos",
+    level: "Iniciante",
   },
 ];
 
