@@ -16,6 +16,13 @@ export default function VideoPage({
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory, loading]);
 
+  const getEmbedUrl = (url) => {
+    if (!url) return "";
+    const videoId = url.includes("v=")
+      ? url.split("v=")[1].split("&")[0]
+      : url.split("/").pop();
+    return `https://www.youtube.com/embed/${videoId}`;
+  };
   return (
     <div
       style={{
@@ -31,7 +38,7 @@ export default function VideoPage({
         <iframe
           width="560"
           height="315"
-          src={`https://www.youtube.com/embed/${video.url.split("v=")[1]}`}
+          src={getEmbedUrl(video.url)}
           title="Youtube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
