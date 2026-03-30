@@ -4,6 +4,7 @@ import {
   getVideosByCategory,
 } from "../controllers/video.controller.js";
 import { authMiddleware } from "../middlawares/auth.middleware.js";
+import { verificarAdmin } from "../middlawares/admin.middleware.js";
 
 const router = Router();
 
