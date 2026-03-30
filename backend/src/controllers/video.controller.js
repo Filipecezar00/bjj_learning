@@ -24,3 +24,26 @@ export const getVideosByCategory = async (req, res) => {
       .json({ message: "Erro interno ao realizar a busca por videos!" });
   }
 };
+
+export const cadastrarVideo = async (req, res) => {
+  try {
+    const { title, url, category, level, summary, applyTips } = req.body;
+
+    const novoVideo = await Video.create({
+      title,
+      url,
+      category,
+      level,
+      summary,
+      applyTips,
+    });
+
+    return res.status(201).json({
+      message: "Sucesso ao adicionar Video!",
+      video: novoVideo,
+    });
+  } catch (error) {
+    console.error("ERRO DURANTE PROCESSO DE CADASTRO DO VIDEO:" + error);
+    return res.status(500).send("Erro ao Cadastrar: " + error.message);
+  }
+};
