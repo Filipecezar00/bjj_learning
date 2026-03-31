@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../services/api";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-export async function AdminDashboard() {
+export function AdminDashboard() {
   const [loading, setLoading] = useState(false);
   const [videoData, setVideoData] = useState({
     title: "",
@@ -12,6 +13,8 @@ export async function AdminDashboard() {
     summary: "",
     applyTips: "",
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setVideoData({ ...videoData, [e.target.name]: e.target.value });
@@ -46,6 +49,18 @@ export async function AdminDashboard() {
       setLoading(false);
     }
   }
+  const usuarioLogado = JSON.parse(localStorage.getItem("user"));
+
+  if (!usuarioLogado || usuarioLogado.role !== "admin") {
+    toast.error("Acesso Negado! Você não tem Permissão");
+
+    useEffect(() => {
+      navigate("/");
+    }, [navigate]);
+
+    return null;
+  }
+
   return (
     <div>
       <h1>Gestão de Vídeos - Plataforma BJJ Learning</h1>
