@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
 import ChatMessage from "../components/ChatMessage";
+import { Heart } from "lucide-react";
+import toast from "react-hot-toast";
+import api from "../services/api";
+import { useState } from "react";
 export default function VideoPage({
   video,
   question,
@@ -11,6 +15,7 @@ export default function VideoPage({
   onBack,
 }) {
   const chatEndRef = useRef(null);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -23,6 +28,26 @@ export default function VideoPage({
       : url.split("/").pop();
     return `https://www.youtube.com/embed/${videoId}`;
   };
+
+  const isFavorite = user?.favorites?.some(
+    (fav) => fav.toString() === video._id,
+  );
+
+  async function handleFavorite(videoId) {
+    try {
+      const response = await api.post("/users/favorite", { videoId });
+
+      const updatedUser = { ...user, favorites: response.data.favorites };
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+
+      toast.success("Favoritos atualizados!");
+    } catch (error) {
+      console.error("ERRO AO FAVORITAR VIDEO:", error);
+      toast.error("Erro ao favoritar Vídeo");
+    }
+  }
+
   return (
     <div
       style={{
@@ -31,7 +56,6 @@ export default function VideoPage({
         flexDirection: "column",
         alignItems: "center",
       }}
-      onClick={onclick}
     >
       <h1>{video.title}</h1>
       {video.url && (
@@ -46,6 +70,13 @@ export default function VideoPage({
           style={{ borderRadius: "8px", margin: "20px 0" }}
         ></iframe>
       )}
+      <Heart
+        onClick={() => handleFavorite(video._id)}
+        size={24}
+        fill={isFavorite ? "red" : "none"}
+        color={isFavorite ? "red" : "white"}
+        style={{ cursor: "pointer", transition: "0.3s" }}
+      ></Heart>
 
       <h3>Chat bot treinador</h3>
       <input
