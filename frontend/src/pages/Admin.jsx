@@ -153,6 +153,7 @@ export function AdminDashboard() {
           marginBottom: "20px",
           fontSize: "1rem",
         }}
+        type="button"
       >
         <ArrowLeft size={20} /> Voltar para a Vitrine
       </button>
