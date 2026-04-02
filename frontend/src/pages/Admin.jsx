@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
 export function AdminDashboard() {
   const [loading, setLoading] = useState(false);
@@ -109,7 +110,9 @@ export function AdminDashboard() {
           <option value="Passagem">Passagem</option>
           <option value="Guarda">Guarda</option>
           <option value="Defesa">Defesa</option>
-          <option value="Quedas">Quedas</option>
+          <option value="Queda">Queda</option>
+          <option value="Drill">Drill</option>
+          <option value="Rapagem">Raspagem</option>
         </select>
         <label>Nível:</label>
         <select name="level" value={videoData.level} onChange={handleChange}>
@@ -137,6 +140,22 @@ export function AdminDashboard() {
           {loading ? "Cadastrando" : "Cadastrar Video"}
         </button>
       </form>
+      <button
+        onClick={() => navigate("/home")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          background: "none",
+          border: "none",
+          color: "#aaa",
+          cursor: "pointer",
+          marginBottom: "20px",
+          fontSize: "1rem",
+        }}
+      >
+        <ArrowLeft size={20} /> Voltar para a Vitrine
+      </button>
     </div>
   );
 }
