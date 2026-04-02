@@ -14,6 +14,9 @@ export function Home() {
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
 
+  console.log("Conteúdo do localStorage:", storedUser);
+  console.log("Role do usuário atual:", user?.role);
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videos, setVideos] = useState([]);
@@ -141,6 +144,10 @@ export function Home() {
       (msg) => msg.category === selectedCategory,
     );
 
+    console.log("DEBUG LOGIN - Objeto Inteiro:", user);
+    console.log("DEBUG LOGIN - Tipo de Role:", typeof user?.role);
+    console.log("DEBUG LOGIN - Valor do Role:", user?.role);
+
     return (
       <VideoPage
         video={selectedVideo}
@@ -201,7 +208,25 @@ export function Home() {
             padding: "10px",
           }}
         >
-          {" "}
+          <nav>
+            {user?.role === "admin" && (
+              <button
+                style={{
+                  backgroundColor: "#d32f2f",
+                  color: "white",
+                  padding: "10px 20px",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  marginBottom: "10px",
+                  gap: "1em",
+                }}
+                onClick={() => navigate("/admin")}
+              >
+                Painel Admin
+              </button>
+            )}
+          </nav>{" "}
           <div
             style={{
               display: "flex",
@@ -211,24 +236,6 @@ export function Home() {
               minWidth: "200px",
             }}
           >
-            <nav>
-              {user?.role === "admin" && (
-                <button
-                  style={{
-                    backgroundColor: "#d32f2f",
-                    color: "white",
-                    padding: "10px 20px",
-                    borderRadius: "8px",
-                    cursor: "pointer",
-                    fontWeight: "bold",
-                    marginBottom: "10px",
-                  }}
-                  onClick={() => navigate("/admin")}
-                >
-                  Painel Admin
-                </button>
-              )}
-            </nav>
             {Categories.map((cat) => (
               <CategoryCard
                 key={cat}

@@ -42,6 +42,8 @@ export function Login() {
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("user",JSON.stringify(user)); 
+      
       if (user?.name) localStorage.setItem("userName", user.name);
 
       if (mode === "signup") {

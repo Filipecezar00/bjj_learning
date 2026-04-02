@@ -113,7 +113,7 @@ export async function login(req, res) {
     return res.json({
       accessToken,
       refreshToken,
-      user: { name: user.name, id: user._id },
+      user: { name: user.name, id: user._id, role: user.role },
     });
   } catch (e) {
     console.error("Erro no JWT", e.message);
