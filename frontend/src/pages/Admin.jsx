@@ -16,10 +16,6 @@ export function AdminDashboard() {
 
   const navigate = useNavigate();
 
-  // const handleChange = (e) => {
-  //   setVideoData({ ...videoData, [e.target.name]: e.target.value });
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setVideoData((prev) => ({
@@ -66,9 +62,27 @@ export function AdminDashboard() {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        flexWrap: "wrap",
+      }}
+    >
       <h1>Gestão de Vídeos - Plataforma BJJ Learning</h1>
-      <form onSubmit={enviarFormulario}>
+      <form
+        onSubmit={enviarFormulario}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          flexWrap: "wrap",
+          gap: "0.5em",
+        }}
+      >
         <label htmlFor="title">Titulo:</label>
         <input
           type="text"
@@ -119,7 +133,7 @@ export function AdminDashboard() {
           onChange={handleChange}
         />
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} style={{ margin: "10px" }}>
           {loading ? "Cadastrando" : "Cadastrar Video"}
         </button>
       </form>
