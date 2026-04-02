@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,16 @@ export function AdminDashboard() {
 
   const navigate = useNavigate();
 
+  // const handleChange = (e) => {
+  //   setVideoData({ ...videoData, [e.target.name]: e.target.value });
+  // };
+
   const handleChange = (e) => {
-    setVideoData({ ...videoData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setVideoData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   async function enviarFormulario(event) {
@@ -53,10 +61,6 @@ export function AdminDashboard() {
 
   if (!usuarioLogado || usuarioLogado.role !== "admin") {
     toast.error("Acesso Negado! Você não tem Permissão");
-
-    useEffect(() => {
-      navigate("/");
-    }, [navigate]);
 
     return null;
   }

@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
+import { AdminDashboard } from "./pages/Admin";
 import { Toaster } from "react-hot-toast";
 
 function PrivateRoute({ children }) {
@@ -28,6 +29,7 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
