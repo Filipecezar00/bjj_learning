@@ -30,6 +30,7 @@ function App() {
           }
         ></Route>
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/favorites" element={<Favorite />} />
       </Routes>
     </Router>
   );
