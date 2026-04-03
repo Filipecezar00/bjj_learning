@@ -16,6 +16,7 @@ export default function VideoPage({
 }) {
   const chatEndRef = useRef(null);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [isFavoriting, setIsFavoriting] = useState(false);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -34,6 +35,10 @@ export default function VideoPage({
   );
 
   async function handleFavorite(videoId) {
+    if (isFavoriting) return;
+
+    setIsFavoriting(true);
+
     try {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       const userId = storedUser?.id || storedUser?._id;
@@ -64,6 +69,8 @@ export default function VideoPage({
       toast.error("Erro interno do Servidor");
       // console.error("ERRO AO FAVORITAR VIDEO:", error);
       // toast.error("Erro ao favoritar Vídeo");
+    } finally {
+      setIsFavoriting(false);
     }
   }
 
