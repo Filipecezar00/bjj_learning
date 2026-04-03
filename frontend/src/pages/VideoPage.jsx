@@ -56,19 +56,9 @@ export default function VideoPage({
       localStorage.setItem("user", JSON.stringify(storedUser));
 
       toast.success("Favoritos atualizados!");
-
-      // const response = await api.post("/users/favorite", { videoId });
-
-      // const updatedUser = { ...user, favorites: response.data.favorites };
-      // localStorage.setItem("user", JSON.stringify(updatedUser));
-      // setUser(updatedUser);
-
-      // toast.success("Favoritos atualizados!");
     } catch (error) {
       console.error("ERRO AO FAVORITAR: ", error);
       toast.error("Erro interno do Servidor");
-      // console.error("ERRO AO FAVORITAR VIDEO:", error);
-      // toast.error("Erro ao favoritar Vídeo");
     } finally {
       setIsFavoriting(false);
     }
