@@ -35,16 +35,35 @@ export default function VideoPage({
 
   async function handleFavorite(videoId) {
     try {
-      const response = await api.post("/users/favorite", { videoId });
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const userId = storedUser?.id || storedUser?._id;
 
-      const updatedUser = { ...user, favorites: response.data.favorites };
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-      setUser(updatedUser);
+      if (!userId) {
+        return toast.error("Você precisa estar logado para favoritar");
+      }
+
+      const response = await api.post("/users/favorite", {
+        videoId,
+        userId,
+      });
+
+      storedUser.favorites = response.data.favorites;
+      localStorage.setItem("user", JSON.stringify(storedUser));
 
       toast.success("Favoritos atualizados!");
+
+      // const response = await api.post("/users/favorite", { videoId });
+
+      // const updatedUser = { ...user, favorites: response.data.favorites };
+      // localStorage.setItem("user", JSON.stringify(updatedUser));
+      // setUser(updatedUser);
+
+      // toast.success("Favoritos atualizados!");
     } catch (error) {
-      console.error("ERRO AO FAVORITAR VIDEO:", error);
-      toast.error("Erro ao favoritar Vídeo");
+      console.error("ERRO AO FAVORITAR: ", error);
+      toast.error("Erro interno do Servidor");
+      // console.error("ERRO AO FAVORITAR VIDEO:", error);
+      // toast.error("Erro ao favoritar Vídeo");
     }
   }
 
@@ -70,14 +89,14 @@ export default function VideoPage({
           style={{ borderRadius: "8px", margin: "20px 0" }}
         ></iframe>
       )}
+      Favoritar Vídeo
       <Heart
         onClick={() => handleFavorite(video._id)}
         size={24}
         fill={isFavorite ? "red" : "none"}
         color={isFavorite ? "red" : "white"}
         style={{ cursor: "pointer", transition: "0.3s" }}
-      ></Heart>
-
+      ></Heart>{" "}
       <h3>Chat bot treinador</h3>
       <input
         type="text"

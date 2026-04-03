@@ -7,6 +7,7 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import chatRoutes from "./src/routes/chat.routes.js";
+import { toggleFavorite } from "./src/controllers/auth.controller.js";
 import authRoutes from "./src/routes/auth.routes.js";
 import rateLimit from "express-rate-limit";
 import { errorMiddleware } from "./src/middlawares/error.middleware.js";
@@ -38,6 +39,7 @@ app.use(limiter);
 app.use("/api", chatRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/videos", videoRoutes);
+app.post("/api/users/favorite", toggleFavorite);
 
 app.use(errorMiddleware);
 
