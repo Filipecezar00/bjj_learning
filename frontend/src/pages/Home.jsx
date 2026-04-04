@@ -296,6 +296,15 @@ export function Home() {
                         <button onClick={() => handleVideoSelect(video)}>
                           Estudar Video com Treinador
                         </button>
+
+                        <button
+                          onClick={() => navigate("/favorites")}
+                          style={{
+                            margin: "5px",
+                          }}
+                        >
+                          Videos Favoritados
+                        </button>
                       </div>
                     ))}
                 </div>

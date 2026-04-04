@@ -47,8 +47,10 @@ export async function toggleFavorite(req, res) {
       : { $addToSet: { favorites: videoId } };
 
     const updatedUser = await User.findByIdAndUpdate(userId, update, {
-      new: true,
+      returnDocument: "after",
     });
+
+    console.log("Favoritos após o update:", updatedUser.favorites);
 
     res.json({ favorites: updatedUser.favorites });
   } catch (error) {

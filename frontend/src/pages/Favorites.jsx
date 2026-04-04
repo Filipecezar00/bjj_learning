@@ -9,16 +9,27 @@ export function Favorites() {
   const [favoriteVideos, setFavoriteVideos] = useState([]);
   const navigate = useNavigate();
 
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const favoriteIds = storedUser?.favorites || [];
-
   useEffect(() => {
     async function loadFavorites() {
       try {
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        const favoriteIds = storedUser?.favorites || [];
+
+        console.log("IDs que vou procurar:", favoriteIds);
+
         const response = await api.get("/videos");
+
+        console.log("Todos os Vídeos da Api: ", response.data);
+
         const filtered = response.data.filter((video) => {
-          favoriteIds.includes(video._id);
+          return (
+            favoriteIds.some((favId) => String(favId)) === String(video._id)
+          );
         });
+
+        console.log("Vídeos após o filtro: ", filtered.length);
+        console.log("Lista completa de vídeos da API:", response.data);
+
         setFavoriteVideos(filtered);
       } catch (error) {
         console.error("ERRO AO CARREGAR FAVORITOS: ", error);
