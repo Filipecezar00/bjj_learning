@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../services/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash } from "lucide-react";
 
 export function AdminDashboard() {
   const [loading, setLoading] = useState(false);
@@ -14,6 +14,15 @@ export function AdminDashboard() {
     summary: "",
     applyTips: "",
   });
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    async function fetchVideos() {
+      const response = await api.get("/videos");
+      setVideos(response.data);
+    }
+    fetchVideos();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -24,6 +33,21 @@ export function AdminDashboard() {
       [name]: value,
     }));
   };
+
+  async function handleDeletar(idDoVideo) {
+    if (confirm("Deseja deletar o Video?")) {
+      try {
+        const result = await api.delete(`/videos/${idDoVideo}`);
+        if (result) {
+          setVideos((prev) => prev.filter((v) => v._id !== idDoVideo));
+          toast.success("Video deletado com Sucesso!");
+        }
+      } catch (error) {
+        console.error("Erro ao realizar a exclusão do video:", error);
+        toast.error("Erro ao realizar a exclusão do video");
+      }
+    }
+  }
 
   async function enviarFormulario(event) {
     event.preventDefault();
@@ -157,6 +181,28 @@ export function AdminDashboard() {
       >
         <ArrowLeft size={20} /> Voltar para a Vitrine
       </button>
+      <h2>Gerenciar Vídeos Cadastrados</h2>
+      <div className="admin-video-list">
+        {videos.map((video) => (
+          <div
+            key={video._id}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "10px",
+              borderBottom: "1px solid #ccc",
+            }}
+          >
+            <span>{video.title}</span>
+            <button
+              onClick={() => handleDeletar(video._id)}
+              style={{ color: "red" }}
+            >
+              <Trash />
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
