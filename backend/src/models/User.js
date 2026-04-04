@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
+    history: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
   },
   { timestamps: true },
 );
