@@ -26,24 +26,19 @@ export function Login() {
     e.preventDefault();
     setError("");
 
-    console.log("Iniciando tentativa de:", mode);
-
     const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
     const payload =
       mode === "login" ? { email, password } : { name, email, password };
 
     try {
-      console.log("Chamando API em:", endpoint, "Com dados:", payload);
       const response = await api.post(endpoint, payload);
-
-      console.log("Resposta recebida com sucesso:", response.data);
 
       const { accessToken, refreshToken, user } = response.data;
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      localStorage.setItem("user",JSON.stringify(user)); 
-      
+      localStorage.setItem("user", JSON.stringify(user));
+
       if (user?.name) localStorage.setItem("userName", user.name);
 
       if (mode === "signup") {
@@ -54,10 +49,10 @@ export function Login() {
         navigate("/home");
       }
     } catch (err) {
-      console.error("--- OBJETO DE ERRO COMPLETO ---");
-      console.dir(err);
+      const mensagemDeErro =
+        error.response?.data?.message || "E-mail ou Senha inválidos";
       setError(err.message);
-      toast.error("Erro: " + err.message);
+      toast.error(mensagemDeErro);
     }
   };
 
@@ -73,7 +68,6 @@ export function Login() {
             : "Recuperar Senha"}
         </h2>
         <p className="title">Preencha seus Dados de Cadastro</p>
-        {error && <p className="error-msg">{error}</p>}
         {mode === "signup" && (
           <input
             type="text"
