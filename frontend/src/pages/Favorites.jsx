@@ -9,27 +9,42 @@ export function Favorites() {
   const [favoriteVideos, setFavoriteVideos] = useState([]);
   const navigate = useNavigate();
 
+  const getEmbedUrl = (url) => {
+    if (!url) return "";
+
+    if (url.includes("watch?v=")) {
+      const id = url.split("v=")[1].split("&")[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    if (url.includes("youtu.be/")) {
+      const id = url.split("youtu.be/")[1].split("?")[0];
+      return `https://www.youtube.com/embed/${id}`;
+    }
+    return url;
+  };
+
   useEffect(() => {
     async function loadFavorites() {
       try {
         const storedUser = JSON.parse(localStorage.getItem("user"));
-        const favoriteIds = storedUser?.favorites || [];
+        const favoriteIds = (storedUser?.favorites || []).map((id) =>
+          String(id).trim(),
+        );
 
         console.log("IDs que vou procurar:", favoriteIds);
 
         const response = await api.get("/videos");
+        const todosOsVideos = response.data;
 
         console.log("Todos os Vídeos da Api: ", response.data);
 
-        const filtered = response.data.filter((video) => {
-          return (
-            favoriteIds.some((favId) => String(favId)) === String(video._id)
-          );
+        const filtered = todosOsVideos.filter((video) => {
+          const videoIdNoBanco = String(video._id).trim();
+
+          return favoriteIds.includes(videoIdNoBanco);
         });
 
-        console.log("Vídeos após o filtro: ", filtered.length);
-        console.log("Lista completa de vídeos da API:", response.data);
-
+        console.log("Vídeos que passaram no filtro:", filtered);
         setFavoriteVideos(filtered);
       } catch (error) {
         console.error("ERRO AO CARREGAR FAVORITOS: ", error);
@@ -81,9 +96,17 @@ export function Favorites() {
             }}
           >
             {favoriteVideos.map((video) => (
-              <div key={video._id}>
+              <div key={video._id} className="video-card">
                 <h3>{video.title}</h3>
-                <iframe width="100%" height="200" src={video.url} />
+                <iframe
+                  width="100%"
+                  height="400"
+                  src={getEmbedUrl(video.url)}
+                  title={video.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
               </div>
             ))}
           </div>
