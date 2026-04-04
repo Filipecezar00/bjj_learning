@@ -47,3 +47,18 @@ export const cadastrarVideo = async (req, res) => {
     return res.status(500).send("Erro ao Cadastrar: " + error.message);
   }
 };
+
+export const deletarVideo = async (req, res) => {
+  try {
+    const videoId = req.params.id;
+    const result = await Video.findByIdAndDelete(videoId);
+    if (!result) {
+      return res.status(404).send("Video indisponível!");
+    } else {
+      return res.status(200).send("Video Deletado com Sucesso!");
+    }
+  } catch (error) {
+    console.error("Erro interno no servidor: " + error);
+    return res.status(500).send("Erro ao deletar video");
+  }
+};

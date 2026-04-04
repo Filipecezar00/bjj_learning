@@ -280,7 +280,7 @@ export function Home() {
                         >
                           <iframe
                             width="100%"
-                            height="200"
+                            height="400"
                             src={getEmbedUrl(video.url)}
                             title={video.title}
                             frameBorder="0"
