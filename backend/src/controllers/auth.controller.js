@@ -59,31 +59,41 @@ export async function toggleFavorite(req, res) {
   }
 }
 export async function register(req, res) {
-  const parsed = registerSchema.safeParse(req.body);
+  try {
+    const parsed = registerSchema.safeParse(req.body);
 
-  if (!parsed.success) {
-    throw new Error(
-      "Erro ao Enviar dados do registro, por favor tente novamente",
-      400,
-    );
+    if (!parsed.success) {
+      throw new Error(
+        "Erro ao Enviar dados do registro, por favor tente novamente",
+        400,
+      );
+    }
+
+    const { name, email, password } = parsed.data;
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      throw new Error("Por favor cadastre um Email válido", 400);
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordCorrect) {
+      return res.status(401).json({ message: "E-mail ou senha inválidos" });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+    });
+    res.status(201).json({ message: "Usuário criado com Sucesso" });
+  } catch (error) {
+    console.error("ERRO AO PERCORRER ROTA DE REGISTRO:", error);
   }
-
-  const { name, email, password } = parsed.data;
-
-  const existingUser = await User.findOne({ email });
-
-  if (existingUser) {
-    throw new Error("Por favor cadastre um Email válido", 400);
-  }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const user = await User.create({
-    name,
-    email,
-    password: hashedPassword,
-  });
-  res.status(201).json({ message: "Usuário criado com Sucesso" });
 }
 
 export async function refresh(req, res) {
