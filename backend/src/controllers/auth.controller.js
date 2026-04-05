@@ -79,7 +79,7 @@ export async function register(req, res) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password, hashedPassword);
 
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: "E-mail ou senha inválidos" });
