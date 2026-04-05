@@ -4,7 +4,7 @@ import VideoCard from "../components/VideoCard";
 import VideoPage from "./VideoPage";
 import Layout from "../components/Layout";
 import { useNavigate } from "react-router-dom";
-import { DoorOpen } from "lucide-react";
+import { DoorOpen, Scroll } from "lucide-react";
 import api from "../services/api.js";
 import toast from "react-hot-toast";
 
@@ -13,9 +13,6 @@ export function Home() {
 
   const storedUser = localStorage.getItem("user");
   const user = storedUser ? JSON.parse(storedUser) : null;
-
-  console.log("Conteúdo do localStorage:", storedUser);
-  console.log("Role do usuário atual:", user?.role);
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -26,6 +23,21 @@ export function Home() {
   const [question, setQuestion] = useState("");
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
+  const [recentVideos, setRecentVideos] = useState([]);
+
+  useEffect(() => {
+    async function carregarHistorico() {
+      try {
+        const response = await api.get("/users/profile");
+        if (response.data && response.data.history) {
+          setRecentVideos(response.data.history);
+        }
+      } catch (error) {
+        console.error("Erro ao concluir processo", error);
+      }
+    }
+    carregarHistorico();
+  }, []);
 
   useEffect(() => {
     async function fetchVideosAndCategories() {
@@ -141,10 +153,6 @@ export function Home() {
       (msg) => msg.category === selectedCategory,
     );
 
-    console.log("DEBUG LOGIN - Objeto Inteiro:", user);
-    console.log("DEBUG LOGIN - Tipo de Role:", typeof user?.role);
-    console.log("DEBUG LOGIN - Valor do Role:", user?.role);
-
     return (
       <VideoPage
         video={selectedVideo}
@@ -233,6 +241,65 @@ export function Home() {
               minWidth: "200px",
             }}
           >
+            {recentVideos.length > 0 && (
+              <div
+                style={{
+                  width: "100%",
+                  marginBottom: "40px",
+                  textAlign: "left",
+                }}
+              >
+                <h2 style={{ fontSize: "1.5rem", marginBottom: "15px" }}>
+                  Continuar Treinando...
+                </h2>
+                <div
+                  style={{
+                    display: "flex",
+                    overflowX: "auto",
+                    gap: "20px",
+                    paddingBottom: "15px",
+                    scrollbarWidth: "thin",
+                    WebkitOverflowScrolling: "touch",
+                  }}
+                >
+                  {recentVideos.map((video) => (
+                    <div
+                      key={video._id}
+                      onClick={() => handleVideoSelect(video)}
+                      style={{
+                        minWidth: "280px",
+                        cursor: "pointer",
+                        transition: "transform 0.2s",
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.transform = "scale(1.02)")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.transform = "scale(1)")
+                      }
+                    >
+                      <img
+                        src={`https://img.youtube.com/vi/${getEmbedUrl(
+                          video.url,
+                        )
+                          .split("/")
+                          .pop()}/mqdefault.jpg`}
+                        alt={video.title}
+                        style={{
+                          width: "100%",
+                          borderRadius: "12px",
+                          marginBottom: "8px",
+                        }}
+                      />
+                      <h4 style={{ fontSize: "0.9rem", color: "#fff" }}>
+                        {video.title}
+                      </h4>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {Categories.map((cat) => (
               <CategoryCard
                 key={cat}

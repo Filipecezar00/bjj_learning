@@ -114,3 +114,4 @@ export const obterPerfil = async (req, res) => {
     return res.status(500).send("Erro ao salvar dados do perfil");
   }
 };
+
