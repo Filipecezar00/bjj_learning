@@ -4,6 +4,8 @@ import { Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../services/api";
 import { useState } from "react";
+import useParams from "react-router-dom";
+
 export default function VideoPage({
   video,
   question,
@@ -63,6 +65,20 @@ export default function VideoPage({
       setIsFavoriting(false);
     }
   }
+
+  useEffect(() => {
+    const registrarHistorico = async () => {
+      if (video?._id) {
+        try {
+          await api.post(`/videos/history/${video._id}`);
+          console.log("Historico atualizado");
+        } catch (error) {
+          console.error("Erro ao salvar no Historico", error);
+        }
+      }
+    };
+    registrarHistorico();
+  }, [video?._id]);
 
   return (
     <div
