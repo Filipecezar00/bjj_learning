@@ -93,3 +93,24 @@ export const adicionarAoHistorico = async (req, res) => {
     return res.status(500).send("Erro ao adicionar video no historico!");
   }
 };
+
+export const obterPerfil = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const usuario = await User.findById(userId)
+      .populate({
+        path: "history",
+        options: { limit: 10 },
+      })
+      .select("-password");
+
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
+    }
+
+    return res.status(200).json(usuario);
+  } catch (error) {
+    console.error("Erro ao obter Perfil:", error);
+    return res.status(500).send("Erro ao salvar dados do perfil");
+  }
+};
