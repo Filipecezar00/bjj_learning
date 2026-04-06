@@ -68,12 +68,21 @@ export default function VideoPage({
   useEffect(() => {
     const registrarHistorico = async () => {
       if (video?._id) {
+        console.log(
+          "DEBUG: Tentando enviar para o histórico o vídeo ID:",
+          video._id,
+        );
         try {
-          await api.post(`/videos/history/${video._id}`);
-          console.log("Historico atualizado");
+          const response = await api.post(`/videos/history/${video._id}`);
+          console.log("DEBUG: Resposta do Servidor:", response.data);
         } catch (error) {
-          console.error("Erro ao salvar no Historico", error);
+          console.error(
+            "DEBUG: Erro na requisição de Historico",
+            error.response?.data || error.message,
+          );
         }
+      } else {
+        console.log("DEBUG:video._id ainda não está disponivel");
       }
     };
     registrarHistorico();

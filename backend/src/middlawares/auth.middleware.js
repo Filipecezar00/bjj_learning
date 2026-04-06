@@ -39,7 +39,7 @@ export function authMiddleware(req, res, next) {
             : "Token inválido";
         return res.status(401).json({ message });
       }
-      req.userId = decoded.id;
+      req.user = decoded;
       return next();
     },
   );

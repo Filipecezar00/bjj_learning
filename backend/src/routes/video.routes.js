@@ -9,6 +9,7 @@ import {
   cadastrarVideo,
   deletarVideo,
   adicionarAoHistorico,
+  obterPerfil,
 } from "../controllers/video.controller.js";
 
 const router = Router();
@@ -16,6 +17,7 @@ const router = Router();
 router.get("/", getVideos);
 router.get("/category/:category", getVideosByCategory);
 router.post("/", authMiddleware, verificarAdmin, cadastrarVideo);
+router.get("/profile", authMiddleware, obterPerfil);
 router.post("/history/:videoId", authMiddleware, adicionarAoHistorico);
 router.delete("/:id", deletarVideo);
 

@@ -28,12 +28,17 @@ export function Home() {
   useEffect(() => {
     async function carregarHistorico() {
       try {
-        const response = await api.get("/users/profile");
-        if (response.data && response.data.history) {
+        console.log(
+          "Tentando buscar perfil em: ",
+          api.defaults.baseURL + "/videos/profile",
+        );
+        const response = await api.get("/videos/profile");
+
+        if (response.data?.history) {
           setRecentVideos(response.data.history);
         }
       } catch (error) {
-        console.error("Erro ao concluir processo", error);
+        console.error("Erro detalhado:", error.response);
       }
     }
     carregarHistorico();
@@ -166,9 +171,67 @@ export function Home() {
       ></VideoPage>
     );
   }
-
+  console.log("RENDERIZANDO HOME. VIDEOS RECENTES:", recentVideos.length);
   return (
     <Layout>
+      {recentVideos.length > 0 && (
+        <div
+          style={{
+            width: "100%",
+            marginBottom: "40px",
+            textAlign: "left",
+          }}
+        >
+          <h2
+            style={{ fontSize: "1.5rem", marginBottom: "15px", color: "#fff" }}
+          >
+            Continuar Treinando...
+          </h2>
+          <div
+            style={{
+              display: "flex",
+              overflowX: "auto",
+              gap: "20px",
+              paddingBottom: "15px",
+              scrollbarWidth: "thin",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {recentVideos.map((video) => (
+              <div
+                key={video._id}
+                onClick={() => handleVideoSelect(video)}
+                style={{
+                  minWidth: "280px",
+                  cursor: "pointer",
+                  transition: "transform 0.2s",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.02)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
+              >
+                <img
+                  src={`https://img.youtube.com/vi/${getEmbedUrl(video.url)
+                    .split("/")
+                    .pop()}/mqdefault.jpg`}
+                  alt={video.title}
+                  style={{
+                    width: "100%",
+                    borderRadius: "12px",
+                    marginBottom: "8px",
+                  }}
+                />
+                <h4 style={{ fontSize: "0.9rem", color: "#fff" }}>
+                  {video.title}
+                </h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div
         style={{
           display: "flex",
@@ -241,65 +304,6 @@ export function Home() {
               minWidth: "200px",
             }}
           >
-            {recentVideos.length > 0 && (
-              <div
-                style={{
-                  width: "100%",
-                  marginBottom: "40px",
-                  textAlign: "left",
-                }}
-              >
-                <h2 style={{ fontSize: "1.5rem", marginBottom: "15px" }}>
-                  Continuar Treinando...
-                </h2>
-                <div
-                  style={{
-                    display: "flex",
-                    overflowX: "auto",
-                    gap: "20px",
-                    paddingBottom: "15px",
-                    scrollbarWidth: "thin",
-                    WebkitOverflowScrolling: "touch",
-                  }}
-                >
-                  {recentVideos.map((video) => (
-                    <div
-                      key={video._id}
-                      onClick={() => handleVideoSelect(video)}
-                      style={{
-                        minWidth: "280px",
-                        cursor: "pointer",
-                        transition: "transform 0.2s",
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.transform = "scale(1.02)")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.transform = "scale(1)")
-                      }
-                    >
-                      <img
-                        src={`https://img.youtube.com/vi/${getEmbedUrl(
-                          video.url,
-                        )
-                          .split("/")
-                          .pop()}/mqdefault.jpg`}
-                        alt={video.title}
-                        style={{
-                          width: "100%",
-                          borderRadius: "12px",
-                          marginBottom: "8px",
-                        }}
-                      />
-                      <h4 style={{ fontSize: "0.9rem", color: "#fff" }}>
-                        {video.title}
-                      </h4>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {Categories.map((cat) => (
               <CategoryCard
                 key={cat}

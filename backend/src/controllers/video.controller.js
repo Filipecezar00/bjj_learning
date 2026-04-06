@@ -67,7 +67,7 @@ export const deletarVideo = async (req, res) => {
 export const adicionarAoHistorico = async (req, res) => {
   try {
     const { videoId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user.id || req.user._id;
 
     const usuarioId = await User.findById(userId);
 
@@ -87,6 +87,7 @@ export const adicionarAoHistorico = async (req, res) => {
 
     await usuarioId.save();
 
+    console.log("Histórico atualizado para o usuário:", userId);
     return res.status(200).send("Historico salvo com Sucesso");
   } catch (error) {
     console.error("Erro ao adicionar video no historico!", error);
@@ -96,7 +97,14 @@ export const adicionarAoHistorico = async (req, res) => {
 
 export const obterPerfil = async (req, res) => {
   try {
-    const userId = req.user.id;
+    console.log("Contéudo do req.user:", req.user);
+
+    const userId = req.user?.id || req.user?._id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "ID não encontrado no Token" });
+    }
+
     const usuario = await User.findById(userId)
       .populate({
         path: "history",
@@ -105,13 +113,14 @@ export const obterPerfil = async (req, res) => {
       .select("-password");
 
     if (!usuario) {
-      return res.status(404).json({ message: "Usuário não encontrado" });
+      console.log("Usuário não achado no Mongo com o ID:", userId);
+      return res
+        .status(404)
+        .json({ message: "Usuário não encontrado no banco de dados" });
     }
-
     return res.status(200).json(usuario);
   } catch (error) {
     console.error("Erro ao obter Perfil:", error);
     return res.status(500).send("Erro ao salvar dados do perfil");
   }
 };
-
