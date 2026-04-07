@@ -165,47 +165,48 @@ export async function login(req, res) {
   }
 }
 
-export const forgotPassword = async (req,res)=>{
-  const {email} = req.body; 
-  try{
-    const user = await User.findOne({email}); 
-    if(!user) return res.status(404).json({message:"Usuário não encontrado"}); 
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.status(404).json({ message: "Usuário não encontrado" });
 
     const resetToken = jwt.sign(
-      {id:user._id}, 
-      process.env.ACCESS_TOKEN_SECRET, 
-      {expiresIn:"15m"}
+      { id: user._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" },
     );
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`; 
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
     await transporter.sendMail({
-      from:'"BJJ Learning" <noreply@bjjlearning.com>',
-      to:user.email, 
-      subject:"Recuperação de Senha - BJJ Learning", 
-      html:`<h1>Você solicitou a alteração de senha</h1> 
+      from: '"BJJ Learning" <noreply@bjjlearning.com>',
+      to: user.email,
+      subject: "Recuperação de Senha - BJJ Learning",
+      html: `<h1>Você solicitou a alteração de senha</h1> 
       <p>Clique no link abaixo para redefinir a sua senha. Este link expira em 15 minutos.</p> 
-      <a href="${resetUrl}">${resetUrl}</a>`; 
-    }); 
-    res.json({message:"E-mail de recuperação enviado!"}); 
-  }catch(error){
-    res.status(500).json({message:"Erro ao enviar e-mail"}); 
+      <a href="${resetUrl}">${resetUrl}</a>`,
+    });
+    res.json({ message: "E-mail de recuperação enviado!" });
+  } catch (error) {
+    res.status(500).json({ message: "Erro ao enviar e-mail" });
   }
-}; 
+};
 
-export const resetPassword = async (req,res)=>{
-  const {token} = req.params; 
-  const {password} = req.body; 
+export const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
 
-  try{
-    const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET); 
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const salt = await bcrypt.genSalt(10); 
-    const hashedPassword = await bcrypt.hash(password,salt); 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    await User.findByIdAndUpdate(decoded.id,{password:hashedPassword}); 
+    await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
 
-    res.json({message:"Senha alterada com successo!"}); 
-  }catch(error){
-    res.status(400).json({message:"Token inválido ou expirado"}); 
+    res.json({ message: "Senha alterada com successo!" });
+  } catch (error) {
+    res.status(400).json({ message: "Token inválido ou expirado" });
   }
-}; 
+};
