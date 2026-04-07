@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import { transporter } from "../config/mailer.js";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Preencha pelo menos dois caracteres"),
@@ -163,3 +164,30 @@ export async function login(req, res) {
     return res.status(500).json({ message: "Erro ao processar login" });
   }
 }
+
+export const forgotPassword = async (req,res)=>{
+  const {email} = req.body; 
+  try{
+    const user = await User.findOne({email}); 
+    if(!user) return res.status(404).json({message:"Usuário não encontrado"}); 
+
+    const resetToken = jwt.sign(
+      {id:user._id}, 
+      process.env.ACCESS_TOKEN_SECRET, 
+      {expiresIn:"15m"}
+    );
+    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`; 
+
+    await transporter.sendMail({
+      from:'"BJJ Learning" <noreply@bjjlearning.com>',
+      to:user.email, 
+      subject:"Recuperação de Senha - BJJ Learning", 
+      html:`<h1>Você solicitou a alteração de senha</h1> 
+      <p>Clique no link abaixo para redefinir a sua senha. Este link expira em 15 minutos.</p> 
+      <a href="${resetUrl}">${resetUrl}</a>`; 
+    }); 
+    res.json({message:"E-mail de recuperação enviado!"}); 
+  }catch(error){
+    res.status(500).json({message:"Erro ao enviar e-mail"}); 
+  }
+}; 
