@@ -191,3 +191,21 @@ export const forgotPassword = async (req,res)=>{
     res.status(500).json({message:"Erro ao enviar e-mail"}); 
   }
 }; 
+
+export const resetPassword = async (req,res)=>{
+  const {token} = req.params; 
+  const {password} = req.body; 
+
+  try{
+    const decoded = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET); 
+
+    const salt = await bcrypt.genSalt(10); 
+    const hashedPassword = await bcrypt.hash(password,salt); 
+
+    await User.findByIdAndUpdate(decoded.id,{password:hashedPassword}); 
+
+    res.json({message:"Senha alterada com successo!"}); 
+  }catch(error){
+    res.status(400).json({message:"Token inválido ou expirado"}); 
+  }
+}; 
