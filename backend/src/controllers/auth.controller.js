@@ -182,7 +182,7 @@ export const forgotPassword = async (req, res) => {
     );
     const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-    await transporter.sendMail({
+    await transport.sendMail({
       from: '"BJJ Learning" <noreply@bjjlearning.com>',
       to: user.email,
       subject: "Recuperação de Senha - BJJ Learning",
