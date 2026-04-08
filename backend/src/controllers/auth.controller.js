@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { transporter } from "../config/mailer.js";
+import { transport } from "../config/mailer.js";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Preencha pelo menos dois caracteres"),
@@ -94,6 +94,9 @@ export async function register(req, res) {
     res.status(201).json({ message: "Usuário criado com Sucesso" });
   } catch (error) {
     console.error("ERRO AO PERCORRER ROTA DE REGISTRO:", error);
+    return res
+      .status(400)
+      .json({ message: error.message || "Erro no registro" });
   }
 }
 
@@ -183,13 +186,21 @@ export const forgotPassword = async (req, res) => {
       from: '"BJJ Learning" <noreply@bjjlearning.com>',
       to: user.email,
       subject: "Recuperação de Senha - BJJ Learning",
-      html: `<h1>Você solicitou a alteração de senha</h1> 
-      <p>Clique no link abaixo para redefinir a sua senha. Este link expira em 15 minutos.</p> 
-      <a href="${resetUrl}">${resetUrl}</a>`,
+      html: `<div style="font-family:sans-serif; color:#222;">
+      <h2>Olá, ${user.name}!</h2> 
+      <p>Você solicitou a redefinição de sua senha no BJJ learning.</p> 
+      <p>Clique no botão abaixo para escolher uma nova senha:</p>
+      <a href="${resetUrl}" style="background:#d32f2f; color:white; padding:10px 20px; text-decoration:none; border-radius:5px;">Redefinir Senha</a>
+      <p>Este link é válido por apenas 15 minutos.</p> 
+      <hr/> 
+      <small>Se você não solicitou isso, ignore este e-mail.</small> 
+      </div>
+      `,
     });
-    res.json({ message: "E-mail de recuperação enviado!" });
+
+    res.status(200).json({ message: "E-mail enviado com sucesso!" });
   } catch (error) {
-    res.status(500).json({ message: "Erro ao enviar e-mail" });
+    res.status(500).json({ message: "Erro ao Processar solicitação" });
   }
 };
 
@@ -198,6 +209,12 @@ export const resetPassword = async (req, res) => {
   const { password } = req.body;
 
   try {
+    if (!password || password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "A senha Precisa deve ter pelo menos 6 caracteres" });
+    }
+
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     const salt = await bcrypt.genSalt(10);
@@ -205,8 +222,11 @@ export const resetPassword = async (req, res) => {
 
     await User.findByIdAndUpdate(decoded.id, { password: hashedPassword });
 
-    res.json({ message: "Senha alterada com successo!" });
+    res.status(200).json({ message: "Senha alterada com successo!" });
   } catch (error) {
-    res.status(400).json({ message: "Token inválido ou expirado" });
+    console.error("Erro no ResetPassword:", error);
+    const message =
+      error.name === "TokenExpiredError" ? "Link Expirado" : "Link inválido";
+    res.status(400).json({ message });
   }
 };
