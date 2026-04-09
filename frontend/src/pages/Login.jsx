@@ -4,6 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import "./Login.css";
 import toast from "react-hot-toast";
 import api from "../services/api";
+import { Link } from "react-router-dom";
 
 export function Login() {
   const [mode, setMode] = useState("login");
@@ -129,12 +130,26 @@ export function Login() {
               >
                 Não Possui conta? <span>Crie Cadastro</span>
               </p>
-              <p
-                onClick={handleForgotPassword}
-                style={{ cursor: "pointer", color: "#ffffff" }}
+              <div
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  marginTop: "-10px",
+                }}
               >
-                Esqueceu a Senha?
-              </p>
+                <Link
+                  to="/forgot-password"
+                  style={{
+                    fontSize: "12px",
+                    color: "#ccc",
+                    textDecoration: "none",
+                    fontWeight: "bolder",
+                  }}
+                  className="forgot-password-link"
+                >
+                  Esqueceu sua Senha?
+                </Link>
+              </div>
             </>
           ) : (
             <p

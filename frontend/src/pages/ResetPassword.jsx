@@ -11,10 +11,6 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  //   const togglePasswordVisibility = () => {
-  //     setShowPassword(!showPassword);
-  //   };
-
   const isPasswordStrong = password.length >= 6;
   const doPasswordsMatch =
     password === confirmPassword && confirmPassword !== "";
