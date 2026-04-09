@@ -11,18 +11,19 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  //   const togglePasswordVisibility = () => {
+  //     setShowPassword(!showPassword);
+  //   };
+
+  const isPasswordStrong = password.length >= 6;
+  const doPasswordsMatch =
+    password === confirmPassword && confirmPassword !== "";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password.length < 6) {
-      return setError("A senha deve ter no mínimo 6 caracteres");
-    }
-    if (password !== confirmPassword) {
-      return setError("As senhas não coincidem.");
-    }
+    if (!isPasswordStrong) return setError("Senha muito curta.");
+    if (!doPasswordsMatch) return setError("As Senhas não coincidem.");
+
     try {
       await api.post(`/auth/reset-password/${token}`, { password });
       alert("Senha alterada com sucesso! Faça login agora.");
@@ -36,82 +37,122 @@ export default function ResetPassword() {
     <div
       className="auth-container"
       style={{
+        minHeight: "80vh",
         display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <form
         onSubmit={handleSubmit}
         style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          padding: "20px",
+          width: "100%",
+          maxWidth: "400px",
+          padding: "2rem",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          border: "5px solid #ccc",
         }}
       >
-        <h1>Nova Senha</h1>
-        <div
-          className="input-group"
-          style={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Nova Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ padding: "10px", paddingRight: "40px", width: "100%" }}
-          />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="eye-button"
-            style={{
-              position: "absolute",
-              right: "10px",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
+        <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+          Redefinir Senha
+        </h2>
+        <div style={{ position: "relative", marginBottom: "1rem" }}>
+          <label style={{ fontSize: "12px", fontWeight: "bold" }}>
+            Nova Senha
+          </label>
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={{
+                width: "80%",
+                padding: "12px",
+                paddingRight: "45px",
+                borderRadius: "4px",
+                border: `1px solid ${isPasswordStrong ? "#4CAF50" : "#ccc"}`,
+                outline: "none",
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+              }}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+
+          {password && (
+            <span
+              style={{
+                fontSize: "11px",
+                color: isPasswordStrong ? "#4CAF50" : "#d32f2f",
+              }}
+            >
+              {isPasswordStrong ? "Senha válida" : "Mínimo de 6 caracteres"}
+            </span>
+          )}
         </div>
-        <div
-          className="input-group"
-          style={{
-            position: "relative",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Confirme a nova senha"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            style={{ padding: "10px", width: "100%" }}
-          />
+        <div style={{ marginBottom: "1.5rem" }}>
+          <label style={{ fontSize: "12px", fontWeight: "bold" }}>
+            Confirmar Senha
+            <input
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              style={{
+                width: "88%",
+                padding: "12px",
+                borderRadius: "4px",
+                border: `1px solid ${doPasswordsMatch ? "#4CAF50" : "#CCC"}`,
+                outline: "none",
+              }}
+            />
+            {confirmPassword && !doPasswordsMatch && (
+              <span style={{ fontSize: "11px", color: "#d32f2f" }}>
+                As Senhas não coincidem
+              </span>
+            )}
+          </label>
         </div>
         {error && (
-          <p style={{ color: "red", fontSize: "14px", margin: "0" }}>{error}</p>
+          <p
+            style={{
+              color: "white",
+              background: "#d32f2f",
+              padding: "10px",
+              borderRadius: "4px",
+              fontSize: "14px",
+              textAlign: "center",
+            }}
+          >
+            {error}
+          </p>
         )}
+
         <button
           type="submit"
+          disabled={!isPasswordStrong || !doPasswordsMatch}
           style={{
-            padding: "10px",
-            cursor: "pointer",
-            background: "#d32f2f",
-            color: "white",
+            width: "100%",
+            padding: "14px",
             border: "none",
             borderRadius: "4px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            transition: "0.3s",
           }}
         >
           Atualizar Senha
