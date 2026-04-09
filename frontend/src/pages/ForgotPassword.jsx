@@ -24,18 +24,37 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit}>
-        <h1>Recuperar Senha</h1>
-        <p>Digite seu e-mail para receber o link de redefinição.</p>
+    <div
+      className="auth-container"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>Recuperar Senha</h1>
+        <p style={{ textAlign: "center" }}>
+          Digite seu e-mail para receber o link de redefinição.
+        </p>
         <input
           type="email"
           placeholder="Seu e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          style={{ padding: "10px", width: "50%" }}
         />
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={loading} style={{ margin: "10px" }}>
           {loading ? "Enviando..." : "Enviar Link"}
         </button>
         {message && <p className="status-message">{message}</p>}
