@@ -9,6 +9,8 @@ import { Login } from "./pages/Login";
 import { AdminDashboard } from "./pages/Admin";
 import { Favorites } from "./pages/Favorites";
 import { Toaster } from "react-hot-toast";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -30,6 +32,8 @@ function App() {
             </PrivateRoute>
           }
         ></Route>
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
