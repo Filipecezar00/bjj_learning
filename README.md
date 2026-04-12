@@ -1,16 +1,30 @@
-# React + Vite
+# Projeto Bjj_Learning
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O bjj_learning surgiu com a proposta de prestar suporte a praticantes de jiu-jitsu, visando uma organização de estudo a partir de videos e um chatbot treinador pronto para tirar dúvidas especificas. 
 
-Currently, two official plugins are available:
+<img width="663" height="561" alt="image" src="https://github.com/user-attachments/assets/f964a7d3-0038-47a7-b262-730229de4ab2" />
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img width="740" height="572" alt="image" src="https://github.com/user-attachments/assets/fddf6ff0-d392-4f5e-9dbd-404a8c282d71" />
 
-## React Compiler
+<img width="845" height="363" alt="image" src="https://github.com/user-attachments/assets/0ebe37de-3bd8-45c2-9c15-426f7f9f76bc" />
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+<img width="778" height="583" alt="image" src="https://github.com/user-attachments/assets/1f41aced-e030-4b06-83c6-1ee2fc976994" />
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Ferramentas utilizadas para o desenvolvimento
+Front-end: 
+React,
+Css
+
+Back-end: 
+Node.js,
+MongoDb 
+
+Ferramentas úteis: 
+Git e Github, 
+Vercel, 
+Railway
+
+Dentro desse Projeto o usuário com login comum pode acessar videos organizados por categorias do seu interesse, tirar dúvidas com o chatbot treinador e favoritar videos do seu interesse. O usuário admin pode adicionar videos por categorias especificas e deletar videos por categorias especificas. 
+
+Link para acesso do Projeto: https://bjj-learning.vercel.app
