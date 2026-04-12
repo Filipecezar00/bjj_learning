@@ -60,6 +60,6 @@ app.get("/", (req, res) => {
 });
 
 // Chamada do Servidor
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor Rodando na Porta ${PORT}`);
 });
