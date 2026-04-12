@@ -180,7 +180,7 @@ export const forgotPassword = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" },
     );
-    const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetUrl = `https://bjj-learning.vercel.app/reset-password/${resetToken}`;
 
     await transport.sendMail({
       from: '"BJJ Learning" <noreply@bjjlearning.com>',
