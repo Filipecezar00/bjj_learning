@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../services/api";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
