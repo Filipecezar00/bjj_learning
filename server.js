@@ -18,10 +18,15 @@ const app = express();
 const PORT = process.env.port || 3000;
 
 // Middlewares
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
+
 app.use(
   cors({
-    origin: "https://bjj-learning.vercel.app",
+    origin: "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -56,5 +61,5 @@ app.get("/", (req, res) => {
 
 // Chamada do Servidor
 app.listen(PORT, () => {
-  console.log("Servidor rodando");
+  console.log(`Servidor Rodando na Porta ${PORT}`);
 });
