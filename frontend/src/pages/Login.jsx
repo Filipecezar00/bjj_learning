@@ -16,13 +16,6 @@ export function Login() {
 
   const navigate = useNavigate();
 
-  const handleForgotPassword = (e) => {
-    e.preventDefault();
-    toast.custom(
-      "Funcionalidade ainda não disponivel, tente novamente mais para frente.",
-    );
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -52,8 +45,8 @@ export function Login() {
     } catch (err) {
       const mensagemDeErro =
         error.response?.data?.message || "E-mail ou Senha inválidos";
-      setError(err.message);
       toast.error(mensagemDeErro);
+      setError(mensagemDeErro);
     }
   };
 
