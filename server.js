@@ -15,6 +15,7 @@ import videoRoutes from "./src/routes/video.routes.js";
 
 // Chamando a função
 const app = express();
+const PORT = process.env.port || 3000;
 
 // Middlewares
 app.use(helmet());
@@ -54,6 +55,6 @@ app.get("/", (req, res) => {
 });
 
 // Chamada do Servidor
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log("Servidor rodando");
 });
