@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: "https://bjjlearning-production.up.railway.app",
+  baseURL: "https://bjjlearning-production.up.railway.app/api",
 });
 
 api.interceptors.request.use(
