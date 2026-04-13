@@ -27,7 +27,7 @@ export async function chat(req, res) {
       message,
       category: video?.category,
     });
-    const userId = req.userId;
+    const userId = req.user.id || req.user._id;
 
     const categoriaFinal = category || video?.category;
 
@@ -37,7 +37,7 @@ export async function chat(req, res) {
       console.error("Erro: O objeto video ou categoria pode estar ausente");
     }
     if (!userId) {
-      return res.status(401).send({ message: "Usuario não identidicado" });
+      return res.status(401).send({ message: "Usuario não identificado" });
     }
 
     if (!message || !message.trim()) {
