@@ -21,65 +21,84 @@ export async function getHistory(req, res) {
 }
 
 export async function chat(req, res) {
-  const { message, video, category } = req.body;
-  console.log("Recebido no servidor:", { message, category: video?.category });
-  const userId = req.userId;
+  try {
+    const { message, video, category } = req.body;
+    console.log("Recebido no servidor:", {
+      message,
+      category: video?.category,
+    });
+    const userId = req.userId;
 
-  const categoriaFinal = category || video?.category;
+    const categoriaFinal = category || video?.category;
 
-  console.log("Processando chat para Categoria:", categoriaFinal);
+    console.log("Processando chat para Categoria:", categoriaFinal);
 
-  if (!video || !video.category) {
-    console.error("Erro: O objeto video ou categoria pode estar ausente");
+    if (!video || !video.category) {
+      console.error("Erro: O objeto video ou categoria pode estar ausente");
+    }
+    if (!userId) {
+      return res.status(401).send({ message: "Usuario não identidicado" });
+    }
+
+    if (!message || !message.trim()) {
+      throw new AppError("É necessario digitar uma mensagem", 400);
+    }
+
+    let memory = await getOrCreateMemory(userId);
+
+    const userMsg = {
+      role: "user",
+      content: message,
+      category: categoriaFinal || "Geral",
+    };
+
+    memory.recentMessages.push(userMsg);
+
+    const cleanHistory = memory.recentMessages.map((msg) => ({
+      role: msg.role,
+      content: msg.content,
+    }));
+
+    const messages = [
+      {
+        role: "system",
+        content: `Você é um mestre faixa preta de jiu-jitsu que responde questões técnicas de jiu-jitsu`,
+      },
+      {
+        role: "system",
+        content: `Resumo da conversa: ${memory.summary} `,
+      },
+      ...cleanHistory,
+    ];
+
+    const aiResponse = await askGroq(messages);
+
+    const assistantMsg = {
+      role: "assistant",
+      content: aiResponse,
+      category: categoriaFinal || "Geral",
+    };
+
+    memory.recentMessages.push(assistantMsg);
+
+    memory.markModified("recentMessages");
+    await memory.save();
+
+    console.log("Memória salva com sucesso para o usuário:", memory.userId);
+    return res.json({ answer: aiResponse });
+  } catch (error) {
+    if (error.response) {
+      console.error("Dados do Erro:", error.response.data);
+      console.error("Status do Erro:", error.response.status);
+      console.error("Headers do Erro:", error.response.headers);
+
+      const backendMessage =
+        error.response.data.message || error.response.data.error;
+      console.log("Mensagem real do Backend:", backendMessage);
+    } else if (error.request) {
+      console.error("Erro na Requisição (sem resposta):", error.request);
+    } else {
+      console.error("Erro de configuração:", error.message);
+    }
   }
-  if (!userId) {
-    return res.status(401).send({ message: "Usuario não identidicado" });
-  }
-
-  if (!message || !message.trim()) {
-    throw new AppError("É necessario digitar uma mensagem", 400);
-  }
-
-  let memory = await getOrCreateMemory(userId);
-
-  const userMsg = {
-    role: "user",
-    content: message,
-    category: categoriaFinal || "Geral",
-  };
-
-  memory.recentMessages.push(userMsg);
-
-  const cleanHistory = memory.recentMessages.map((msg) => ({
-    role: msg.role,
-    content: msg.content,
-  }));
-
-  const messages = [
-    {
-      role: "system",
-      content: `Você é um mestre faixa preta de jiu-jitsu que responde questões técnicas de jiu-jitsu`,
-    },
-    {
-      role: "system",
-      content: `Resumo da conversa: ${memory.summary} `,
-    },
-    ...cleanHistory,
-  ];
-
-  const aiResponse = await askGroq(messages);
-
-  const assistantMsg = {
-    role: "assistant",
-    content: aiResponse,
-    category: categoriaFinal || "Geral",
-  };
-
-  memory.recentMessages.push(assistantMsg);
-
-  memory.markModified("recentMessages");
-  await memory.save();
-
-  console.log("Memória salva com sucesso para o usuário:", memory.userId);
-  return res.json({ answer: aiResponse });
 }
