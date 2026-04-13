@@ -5,6 +5,6 @@ import { chat, getHistory } from "../controllers/chat.controller.js";
 const router = express.Router();
 
 router.get("/history", authMiddleware, getHistory);
-router.post("/chat", authMiddleware, chat);
+router.post("/", authMiddleware, chat);
 
 export default router;
