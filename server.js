@@ -1,4 +1,3 @@
-// Importações
 import dotenv from "dotenv";
 dotenv.config();
 import "express-async-errors";
@@ -13,16 +12,8 @@ import rateLimit from "express-rate-limit";
 import { errorMiddleware } from "./src/middlawares/error.middleware.js";
 import videoRoutes from "./src/routes/video.routes.js";
 
-// Chamando a função
 const app = express();
 const PORT = process.env.port || 3000;
-
-// Middlewares
-app.use(
-  helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" },
-  }),
-);
 
 app.use(
   cors({
@@ -30,6 +21,12 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   }),
 );
 
@@ -61,7 +58,6 @@ app.get("/", (req, res) => {
   res.send("Backend funcionando");
 });
 
-// Chamada do Servidor
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor Rodando na Porta ${PORT} do railway`);
 });
