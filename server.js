@@ -17,7 +17,7 @@ const PORT = process.env.port || 3000;
 
 app.use(
   cors({
-    origin: "https://bjj-learning.vercel.app/login",
+    origin: "https://bjj-learning.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
