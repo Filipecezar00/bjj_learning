@@ -1,7 +1,7 @@
 import api from "../services/api";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://bjj-learning.onrender.com",
 });
 
 api.interceptors.request.use(
